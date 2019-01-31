@@ -2,7 +2,7 @@
 ## Simulation.py                                                             ##
 ###############################################################################
 ## Matthew Osborne                                                           ##
-## July 30, 2018                                                             ##
+## January 20, 2019                                                          ##
 ###############################################################################
 ## Code that will run network simulations of disease spread                  ##
 ## network simulations.                                                      ##
@@ -27,7 +27,9 @@ def IsAtRisk(G,Node,ThresholdType):
         else:
             return False
     elif ThresholdType == "Frac":
-        if float(INeighbors)/float(len(G[Node])) >= G.nodes[Node]['Threshold']:
+        if len(G[Node]) == 0:
+            return False
+        elif float(INeighbors)/float(len(G[Node])) >= G.nodes[Node]['Threshold']:
             return True
         else:
             return False
@@ -145,15 +147,21 @@ def InitialInfect(G,Infected):
     node = random.sample(Susceptible,1)[0]
     Infected.add(node)
     G.nodes[node]['Status'] = "I"
-    print "Infected Node " + str(node)
     return node,G,Infected
+
+def InitialBlockInfect(G,Partitions,Infected):
+    Susceptible = set.union(*Partitions) - Infected
+    node = random.sample(Susceptible,1)[0]
+    Infected.add(node)
+    G.nodes[node]['Status'] = "I"
+    return node,G,Infected
+
 
 
 # Recover will recover a randomly selected infected node
 def Recover(G,Infected):
     node = random.sample(Infected,1)[0]
     Infected.remove(node)
-    print str(node) + " recovered"
     G.nodes[node]['Status'] = "S"
     return node,G,Infected
 
@@ -164,7 +172,6 @@ def Infect(G,Infected,SIEdges):
             node = item
             Infected.add(item)
 
-    print str(node) + " infected"
     G.nodes[node]['Status'] = "I"
     return node,G,Infected
 
@@ -206,7 +213,6 @@ def SimpleSim(G,InitialFrac,StoppingTime,gamma,beta):
     InfectSeed = int(InitialFrac * len(G.nodes))
 
     # Infect the patient zeroes
-    print "Initial Infection"
     for i in range(InfectSeed):
         node,G,Infected = InitialInfect(G,Infected)
         G,SIEdges = UpdateEdges(G,SIEdges,node,"I")
@@ -216,18 +222,19 @@ def SimpleSim(G,InitialFrac,StoppingTime,gamma,beta):
     CurrentInfected = [len(Infected)]
 
     WaitingTimes = []
-    Events = []
+    Events = ["Start"]
+    rate = 1
 
-    while (CurrentTime < StoppingTime) & (len(Infected) > 0):
+    while (CurrentTime < StoppingTime) & (len(Infected) > 0) & (rate > 0):
         # Find the time until the next event
         rate = CalculateRate(SIEdges,Infected,beta,gamma)
+        #print(rate)
         WaitingTime = random.expovariate(rate)
         WaitingTimes.append(WaitingTime)
 
         Event = WhatHappened(Infected,rate,gamma)
         Events.append(Event)
 
-        print Event + " happend at " + str(CurrentTime+WaitingTime)
 
         if Event == "Recovery":
             ChangedNode,G,Infected = Recover(G,Infected)
@@ -242,14 +249,9 @@ def SimpleSim(G,InitialFrac,StoppingTime,gamma,beta):
 
         Time.append(CurrentTime)
         CurrentInfected.append(len(Infected))
-        print CurrentTime < StoppingTime
-        print len(Infected) > 0
-        print len(Time)
+        rate = CalculateRate(SIEdges,Infected,beta,gamma)
 
-    plt.plot(Time,CurrentInfected)
-    plt.show()
-
-    return Time,CurrentInfected
+    return Time,Events,CurrentInfected
 
 def ComplexSim(G,InitialFrac,StoppingTime,gamma,beta,Threshold,ThresholdType):
     # Set all the nodes to susceptible
@@ -270,7 +272,7 @@ def ComplexSim(G,InitialFrac,StoppingTime,gamma,beta,Threshold,ThresholdType):
 
     InfectSeed = int(InitialFrac * len(G.nodes))
 
-    print "Initial Infection"
+
     for i in range(InfectSeed):
         node,G,Infected = InitialInfect(G,Infected)
         G,SIEdges = UpdateEdges(G,SIEdges,node,"I")
@@ -281,7 +283,7 @@ def ComplexSim(G,InitialFrac,StoppingTime,gamma,beta,Threshold,ThresholdType):
     CurrentInfected = [len(Infected)]
 
     WaitingTimes = []
-    Events = []
+    Events = ["Start"]
 
     while (CurrentTime < StoppingTime) & (len(Infected) > 0):
         # print "Nodes " +str(nx.get_node_attributes(G,"Status"))
@@ -299,8 +301,6 @@ def ComplexSim(G,InitialFrac,StoppingTime,gamma,beta,Threshold,ThresholdType):
         Event = WhatHappened(Infected,rate,gamma)
         Events.append(Event)
 
-        print Event + " happened at " + str(CurrentTime+WaitingTime)
-
         if Event == "Recovery":
             ChangedNode,G,Infected = Recover(G,Infected)
             Type = "S"
@@ -311,10 +311,8 @@ def ComplexSim(G,InitialFrac,StoppingTime,gamma,beta,Threshold,ThresholdType):
         G,SIEdges = UpdateEdges(G,SIEdges,ChangedNode,Type)
         G,AtRiskEdges = UpdateAtRisk(G,AtRiskEdges,ChangedNode,Type,ThresholdType)
 
-        print len(AtRiskEdges)
         CurrentTime = CurrentTime + WaitingTime
 
-        print CurrentTime
         Time.append(CurrentTime)
         CurrentInfected.append(len(Infected))
         # print CurrentTime < StoppingTime
@@ -332,7 +330,84 @@ def ComplexSim(G,InitialFrac,StoppingTime,gamma,beta,Threshold,ThresholdType):
         # print "Status, AtRisk: " + str(nx.get_edge_attributes(G,"AtRisk"))
         # print "Status, SI:" + str(nx.get_edge_attributes(G,"Type"))
 
-    plt.plot(Time,CurrentInfected)
-    plt.show()
 
-    return Time,CurrentInfected
+    return Time,Events,CurrentInfected
+
+def SimpleBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta):
+
+# Initial Parameters
+# Size = 1000
+# EdgeProb = 1
+# InitialFrac = .1
+# StoppingTime = 5
+# gamma = 900
+# beta = 1
+
+    # Set all the nodes to susceptible
+    nx.set_node_attributes(G,"S",'Status')
+
+    # Set all the edges to SS
+    nx.set_edge_attributes(G,"SS",'Type')
+
+    Infected = set([])
+    SIEdges = set([])
+
+    Partitions = []
+    for i in WhereInfect:
+        Partitions.append(G.graph['partition'][i])
+
+
+    InfectSeed = int(InitialFrac * len(G.nodes))
+
+    # Infect the patient zeroes
+    for i in range(InfectSeed):
+        node,G,Infected = InitialBlockInfect(G,Partitions,Infected)
+        G,SIEdges = UpdateEdges(G,SIEdges,node,"I")
+
+    del Partitions
+
+    NPartitions = len(G.graph['partition'])
+
+    PartitionInfected = []
+
+    for i in range(NPartitions):
+        PartitionInfected.append([])
+        PartitionInfected[i].append(len(Infected.intersection(G.graph['partition'][i])))
+
+    CurrentTime = 0
+    Time = [CurrentTime]
+    CurrentInfected = [len(Infected)]
+
+    WaitingTimes = []
+    Events = ["Start"]
+    rate = 1
+
+    while (CurrentTime < StoppingTime) & (len(Infected) > 0) & (rate > 0):
+        # Find the time until the next event
+        rate = CalculateRate(SIEdges,Infected,beta,gamma)
+        #print(rate)
+        WaitingTime = random.expovariate(rate)
+        WaitingTimes.append(WaitingTime)
+
+        Event = WhatHappened(Infected,rate,gamma)
+        Events.append(Event)
+
+
+        if Event == "Recovery":
+            ChangedNode,G,Infected = Recover(G,Infected)
+            Type = "S"
+        elif Event == "Infection":
+            ChangedNode,G,Infected = Infect(G,Infected,SIEdges)
+            Type = "I"
+
+        G,SIEdges = UpdateEdges(G,SIEdges,ChangedNode,Type)
+
+        CurrentTime = CurrentTime + WaitingTime
+
+        Time.append(CurrentTime)
+        CurrentInfected.append(len(Infected))
+        for i in range(NPartitions):
+            PartitionInfected[i].append(len(Infected.intersection(G.graph['partition'][i])))
+        rate = CalculateRate(SIEdges,Infected,beta,gamma)
+
+    return Time,Events,CurrentInfected,PartitionInfected
