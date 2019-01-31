@@ -1,6 +1,7 @@
 import CreateNetworks as CN
 import Simulation as S
 import logging
+import Path
 
 seed = 440
 NumSims = 100
@@ -17,7 +18,7 @@ StoppingTime = 5
 
 WhereInfect = [1]
 
-path = "/home/osborne.334/NetworkSims/"
+path = Path.GetPath()
 
 First = True
 
