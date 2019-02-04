@@ -10,13 +10,15 @@ CSV_Save_Name = "SimulationResults/RData_BlockModel.csv"
 
 Complex = pd.read_csv(path + ComplexFile)
 Simple = pd.read_csv(path + SimpleFile)
+Simple['Threshold'] = 0
+Simple = Simple[Complex.columns]
 
 All = pd.concat([Simple,Complex])
 
 del Complex
 del Simple
 
-Round = 2
+Round = 1
 
 All['Round'] = All['EventTime'].round(Round)
 
