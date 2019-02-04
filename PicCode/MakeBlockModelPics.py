@@ -22,7 +22,7 @@ for part in Parts:
     b = a.loc[a.Partition == part,]
 
     fig,ax = plt.subplots(4,4,sharex = 'col',sharey = 'row',figsize = [12,8])
-    for i in range(17):
+    for i in range(16):
         c = b.loc[b.Threshold == Thresholds[i],]
         ax[i/4,i%4].plot(c.I.values,c.Inc.values,'.')
         ax[i/4,i%4].set_title("Threshold: " + str(np.round(Thresholds[i],4)))
