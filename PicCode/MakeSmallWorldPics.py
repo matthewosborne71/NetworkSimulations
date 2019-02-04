@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pyqt_fit.nonparam_regression as smooth
 from pyqt_fit import npr_methods
+import Path
 
 path = Path.GetHomePath()
 

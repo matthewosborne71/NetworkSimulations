@@ -149,6 +149,8 @@ def InitialInfect(G,Infected):
     G.nodes[node]['Status'] = "I"
     return node,G,Infected
 
+# Will randomly infect an "at risk" node within the selected Partitions, only
+# for use when G is block model.
 def InitialBlockInfect(G,Partitions,Infected):
     Susceptible = set.union(*Partitions) - Infected
     node = random.sample(Susceptible,1)[0]
@@ -191,15 +193,6 @@ def WhatHappened(Infected,rate,gamma):
     return event
 
 def SimpleSim(G,InitialFrac,StoppingTime,gamma,beta):
-
-# Initial Parameters
-# Size = 1000
-# EdgeProb = 1
-# InitialFrac = .1
-# StoppingTime = 5
-# gamma = 900
-# beta = 1
-
     # Set all the nodes to susceptible
     nx.set_node_attributes(G,"S",'Status')
 
@@ -286,14 +279,6 @@ def ComplexSim(G,InitialFrac,StoppingTime,gamma,beta,Threshold,ThresholdType):
     Events = ["Start"]
 
     while (CurrentTime < StoppingTime) & (len(Infected) > 0):
-        # print "Nodes " +str(nx.get_node_attributes(G,"Status"))
-        # print "Infected:" + str(Infected)
-        # print "SI: " + str(SIEdges)
-        # print "AtRisk: " + str(AtRiskEdges)
-        # print "Status, AtRisk: " + str(nx.get_edge_attributes(G,"AtRisk"))
-        # print "Status, SI:" + str(nx.get_edge_attributes(G,"Type"))
-        # print "\n\n\n"
-
         rate = CalculateRate(AtRiskEdges,Infected,beta,gamma)
         WaitingTime = random.expovariate(rate)
         WaitingTimes.append(WaitingTime)
@@ -315,34 +300,10 @@ def ComplexSim(G,InitialFrac,StoppingTime,gamma,beta,Threshold,ThresholdType):
 
         Time.append(CurrentTime)
         CurrentInfected.append(len(Infected))
-        # print CurrentTime < StoppingTime
-        # print len(Infected) > 0
-        # print len(Time)
-        # print (CurrentTime < StoppingTime) & (len(Infected) > 0)
-        # print CurrentTime
-        #
-        # print "\n\n\n"
-        #
-        # print "Nodes " +str(nx.get_node_attributes(G,"Status"))
-        # print "Infected:" + str(Infected)
-        # print "SI: " + str(SIEdges)
-        # print "AtRisk: " + str(AtRiskEdges)
-        # print "Status, AtRisk: " + str(nx.get_edge_attributes(G,"AtRisk"))
-        # print "Status, SI:" + str(nx.get_edge_attributes(G,"Type"))
-
 
     return Time,Events,CurrentInfected
 
 def SimpleBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta):
-
-# Initial Parameters
-# Size = 1000
-# EdgeProb = 1
-# InitialFrac = .1
-# StoppingTime = 5
-# gamma = 900
-# beta = 1
-
     # Set all the nodes to susceptible
     nx.set_node_attributes(G,"S",'Status')
 
@@ -408,6 +369,80 @@ def SimpleBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta):
         CurrentInfected.append(len(Infected))
         for i in range(NPartitions):
             PartitionInfected[i].append(len(Infected.intersection(G.graph['partition'][i])))
-        rate = CalculateRate(SIEdges,Infected,beta,gamma)
+
+
+    return Time,Events,CurrentInfected,PartitionInfected
+
+def ComplexBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta,Threshold,ThresholdType):
+    # Set all the nodes to susceptible
+    nx.set_node_attributes(G,"S",'Status')
+
+    # Set all the nodes threshold
+    nx.set_node_attributes(G,Threshold,'Threshold')
+
+    # Set all the edges to SS
+    nx.set_edge_attributes(G,"SS",'Type')
+
+    # Set all edges to not at risk
+    nx.set_edge_attributes(G,"No",'AtRisk')
+
+    Infected = set([])
+    SIEdges = set([])
+    AtRiskEdges = set([])
+
+    InfectSeed = int(InitialFrac * len(G.nodes))
+
+    Partitions = []
+    for i in WhereInfect:
+        Partitions.append(G.graph['partition'][i])
+
+    for i in range(InfectSeed):
+        node,G,Infected = InitialBlockInfect(G,Partitions,Infected)
+        G,SIEdges = UpdateEdges(G,SIEdges,node,"I")
+        G,AtRiskEdges = UpdateAtRisk(G,AtRiskEdges,node,"I",ThresholdType)
+
+    del Partitions
+
+    NPartitions = len(G.graph['partition'])
+
+    PartitionInfected = []
+
+    for i in range(NPartitions):
+        PartitionInfected.append([])
+        PartitionInfected[i].append(len(Infected.intersection(G.graph['partition'][i])))
+
+    CurrentTime = 0
+    Time = [CurrentTime]
+    CurrentInfected = [len(Infected)]
+
+    WaitingTimes = []
+    Events = ["Start"]
+    rate = 1
+
+    while (CurrentTime < StoppingTime) & (len(Infected) > 0):
+        rate = CalculateRate(AtRiskEdges,Infected,beta,gamma)
+        WaitingTime = random.expovariate(rate)
+        WaitingTimes.append(WaitingTime)
+
+        Event = WhatHappened(Infected,rate,gamma)
+        Events.append(Event)
+
+        if Event == "Recovery":
+            ChangedNode,G,Infected = Recover(G,Infected)
+            Type = "S"
+        elif Event == "Infection":
+            ChangedNode,G,Infected = Infect(G,Infected,AtRiskEdges)
+            Type = "I"
+
+        G,SIEdges = UpdateEdges(G,SIEdges,ChangedNode,Type)
+        G,AtRiskEdges = UpdateAtRisk(G,AtRiskEdges,ChangedNode,Type,ThresholdType)
+
+        CurrentTime = CurrentTime + WaitingTime
+
+        Time.append(CurrentTime)
+        CurrentInfected.append(len(Infected))
+
+        for i in range(NPartitions):
+            PartitionInfected[i].append(len(Infected.intersection(G.graph['partition'][i])))
 
     return Time,Events,CurrentInfected,PartitionInfected
