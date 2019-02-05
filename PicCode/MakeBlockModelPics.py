@@ -30,7 +30,7 @@ for part in Parts:
         ax[i/4,i%4].set_ylim(ylim)
         ax[i/4,i%4].set_xlim((0,1000))
 
-    fig.suptitle("Small World, Partition: " + str(part) + ", Time Round: " + str(time))
+    fig.suptitle("Stochastic Block Model, Partition: " + str(part) + ", Time Round: " + str(time))
     fig.text(0.5,0.04,"I",ha = "center")
     fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
     plt.savefig(path + r"SimulationResults\\FOI_Pics\\BlockModel\\BlockModel_Incidence_" + str(j) + ".png")

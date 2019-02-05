@@ -23,7 +23,7 @@ logging.basicConfig(filename = path + "Logs/ComplexSimFacebook.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/ComplexContagionSimulations_Facebook2.csv","w+")
+f = open(path + "SimulationResults/ComplexContagionSimulations_Facebook.csv","w+")
 f.write("beta,Threshold,SimNum,EventTime,Event,CurrentI\n")
 
 TotalSims = len(betas) * len (Thresholds) * NumSims
