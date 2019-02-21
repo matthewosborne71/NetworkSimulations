@@ -65,6 +65,17 @@ def PowerLaw(n,exponent):
     G.remove_edges_from(G.selfloop_edges())
     return G
 
+def NegativeBinomial(n,p,num_succ):
+    DegDist = np.array([1,0])
+
+    while sum(DegDist) % 2 ==1:
+        DegDist = r.negative_binomial(num_succ,p,size = n)
+        DegDist = [int(i) for i in DegDist]
+
+    G = nx.configuration_model(DegDist)
+    G = nx.Graph(G)
+    G.remove_edges_from(G.selfloop_edges())
+    return G
 
 # This function will return a configuration model of size n using networkx.
 # We'll use random or networkx to create a degree distribution of DistType. This

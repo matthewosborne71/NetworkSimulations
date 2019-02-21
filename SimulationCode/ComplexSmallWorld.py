@@ -7,7 +7,7 @@ import Path
 seed = 440
 
 Nodes = 1000
-k = 40
+k = 10
 
 ps = np.arange(0,1.05,.05)
 
@@ -15,7 +15,7 @@ gamma = 1
 
 betas = [1.5]
 
-Thresholds = np.arange(0.01,.12,.01)
+Thresholds = np.arange(0.05,0.55,0.05)
 
 
 NumSims = 50

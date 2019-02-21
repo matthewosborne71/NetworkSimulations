@@ -7,7 +7,7 @@ import Path
 seed = 440
 
 Nodes = 1000
-k = 40
+k = 10
 
 ps = np.arange(0,1.05,.05)
 

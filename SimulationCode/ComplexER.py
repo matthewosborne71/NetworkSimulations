@@ -7,9 +7,9 @@ import Path
 seed = 440
 
 Nodes = [1000]
-EdgeProbs = [.25,.3,.4,.5]
+EdgeProbs = [0.1]
 betas = [1.5]
-Thresholds = np.arange(0.0025,0.0525,0.0025)
+Thresholds = np.arange(0.05,0.55,.05)
 
 gamma = 1
 
@@ -23,11 +23,11 @@ path = Path.GetPath()
 
 First = True
 
-logging.basicConfig(filename = path + "Logs/ComplexSimER2.log",
+logging.basicConfig(filename = path + "Logs/ComplexSimER.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/ComplexContagionSimulations_ER.csv","a")
+f = open(path + "SimulationResults/ComplexContagionSimulations_10_ER.csv","a")
 #f.write("Nodes,EdgeProb,beta,Threshold,SimNum,EventTime,Event,CurrentI\n")
 
 TotalSims = len(Nodes) * len(EdgeProbs) * len(betas) * len(Thresholds) * NumSims

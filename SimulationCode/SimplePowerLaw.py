@@ -4,6 +4,9 @@ import logging
 import numpy as np
 import Path
 
+seed = 440
+np.random.seed(seed)
+
 Nodes = 1000
 exps = np.arange(2,3.1,.1)
 exps = np.append(exps,5)
