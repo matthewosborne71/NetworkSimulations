@@ -26,13 +26,12 @@ for p in RewiringProbs:
 
     fig,ax = plt.subplots(3,4,sharex = 'col',sharey = 'row',figsize = [12,8])
     for i in range(len(Thresholds)):
-        print str(i/4)+ " , " + str(i%4)
         c = b.loc[b.Threshold == Thresholds[i],]
         if len(c) > 10:
             minI = c.I.values.min()
             maxI = c.I.values.max()
             xs = np.arange(minI,maxI,1)
-            k = smooth.NonParamRegression(c.I.values,c.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1))
+            k = smooth.NonParamRegression(c.I.values,c.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
             k.fit()
 
             ax[i/4,i%4].plot(c.I.values,c.Inc.values,'.')

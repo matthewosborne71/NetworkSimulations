@@ -8,8 +8,8 @@ seed = 440
 np.random.seed(seed)
 
 Nodes = 1000
-probs = [.5]
-num_successes = [10]
+probs = np.arange(0.05,1.05,0.05)
+num_successes = [5,10,15,20]
 
 gamma = 1
 beta = 1.5

@@ -1,11 +1,15 @@
 import pandas as pd
 import numpy as np
+import pyqt_fit.nonparam_regression as smooth
+from pyqt_fit import npr_methods
 import matplotlib.pyplot as plt
 import Path
 
 path = Path.GetHomePath()
 
 a = pd.read_csv(path + r"SimulationResults\\RData_ERSims.csv")
+# Only use when trimming data
+a = a.loc[a.I <= 100,]
 
 EdgeProbs = list(set(a.EdgeProb.values))
 Thresholds = list(set(a.Threshold.values))
@@ -30,17 +34,36 @@ for e in EdgeProbs:
     fig,ax = plt.subplots(4,5,sharex = 'col',sharey = 'row',figsize = [12,8])
     for i in range(20):
         c = b.loc[b.Threshold==Thresholds[i],]
-        ax[i/5,i%5].plot(c.I.values,c.Inc.values,'.')
-        ax[i/5,i%5].plot(x,y,'r-')
-        #ax[i/5,i%5].set_xlim([0,100])
-        ylim = ax[0,0].get_ylim()
-        ax[i/5,i%5].set_ylim(ylim)
-        ax[i/5,i%5].set_title("Threshold: " + str(np.round(Thresholds[i],4)))
+        if len(c) > 10:
+            minI = c.I.values.min()
+            maxI = c.I.values.max()
+            xs = np.arange(minI,maxI,1)
+            # Untrimmed regression
+            #k = smooth.NonParamRegression(c.I.values,c.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
+            # Trimmed Regression
+            k = smooth.NonParamRegression(c.I.values,c.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 15)
+            k.fit()
+            ax[i/5,i%5].plot(c.I.values,c.Inc.values,'.')
+            ax[i/5,i%5].plot(xs,k(xs),'r-',linewidth = 2)
+            #ax[i/5,i%5].set_xlim([0,100])
+            ylim = ax[0,0].get_ylim()
+            ax[i/5,i%5].set_ylim(ylim)
+            ax[i/5,i%5].set_title("Threshold: " + str(np.round(Thresholds[i],4)))
+        else:
+            ax[i/5,i%5].plot(c.I.values,c.Inc.values,'.')
+            #ax[i/5,i%5].set_xlim([0,100])
+            ylim = ax[0,0].get_ylim()
+            ax[i/5,i%5].set_ylim(ylim)
+            ax[i/5,i%5].set_title("Threshold: " + str(np.round(Thresholds[i],4)))
+
 
     fig.suptitle("Erdos Renyi, Edge Probability: " + str(e) + ", Time Round: " + str(time))
     fig.text(0.5,0.04,"I",ha = "center")
     fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-    plt.savefig(path + r"SimulationResults\\FOI_Pics\\ER\\ER_Incidence_EP_" + str(e) + ".png")
+    # Untrimmed
+    #plt.savefig(path + r"SimulationResults\\FOI_Pics\\ER\\ER_Incidence_EP_" + str(e) + ".png")
+    # Trimmed
+    plt.savefig(path + r"SimulationResults\\FOI_Pics\\ER\\ER_Incidence_Trimmed_EP_" + str(e) + ".png")
     plt.close()
     del fig
     del ax
