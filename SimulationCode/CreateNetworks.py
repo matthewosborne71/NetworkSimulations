@@ -77,65 +77,17 @@ def NegativeBinomial(n,p,num_succ):
     G.remove_edges_from(G.selfloop_edges())
     return G
 
-# This function will return a configuration model of size n using networkx.
-# We'll use random or networkx to create a degree distribution of DistType. This
-# is then fed into the networkx function. You can input a seed, the default is
-# 440. DistType: "Binomial", "PowerLaw", "NegativeBinomial", "Poisson", "Exponential"
-# def Configuration(n,DistType):
-#     print "Making the degree distribution."
-#     DegDist = np.array([1,0])
-#     if DistType == "Binomial":
-#         numTrials = int(raw_input("You want a binomial with how many trials? "))
-#         prob = float(raw_input("What probability of success do you want? "))
-#
-#         while sum(DegDist) % 2 ==1:
-#             DegDist = r.binomial(numTrials,prob,size = n)
-#
-#
-#     elif DistType == "PowerLaw":
-#         exponent = float(raw_input("What do you want the power law exponent to be? "))
-#
-#         while sum(DegDist)%2 == 1:
-#             DegDist = nx.utils.powerlaw_sequence(n,exponent=exponent)
-#             DegDist = map(int,DegDist)
-#
-#     elif DistType == "NegativeBinomial":
-#         num_failures = int(raw_input("You want a negative binomial with how many failures? "))
-#         prob = float(raw_input("What probability of success? "))
-#
-#         while sum(DegDist) % 2 ==1:
-#             DegDist = r.negative_binomial(num_failures,prob,size = n)
-#
-#     elif DistType == "Poisson":
-#         lam = float(raw_input("What should the lambda parameter be of your Poisson? "))
-#
-#         while sum(DegDist) % 2 == 1:
-#             DegDist = r.poisson(lam,size = n)
-#
-#     elif DistType == "Exponential":
-#         beta = float(raw_input("What should the scale parameter be of your Exponential? "))
-#
-#         while sum(DegDist) % 2 == 1:
-#             DegDist = r.exponential(beta,size = n)
-#
-#     print "Making the graph now"
-#     G = nx.configuration_model(DegDist)
-#
-#     return G
-#
-# # This function will take in a graph and node positions and then output a plot
-# # of the graph
-# def DrawGraph(G,node_size=5,width = .3):
-#     print "Fetching Positions"
-#     pos = nx.spring_layout(G)
-#
-#     print "Initializing Figure"
-#     plt.figure(figsize = (15,15))
-#
-#     print "Drawing nodes"
-#     nx.draw_networkx_nodes(G,pos,node_size=node_size)
-#
-#     print "Drawing edges, this may take a while"
-#     nx.draw_networkx_edges(G,pos,width=width)
-#
-#     plt.show()
+def BarabasiAlbert(n,m,seed = 'None'):
+    if seed == 'None':
+        return nx.barabasi_albert_graph(n,m)
+    else:
+        return nx.barabasi_albert_graph(n,m,seed)
+
+def GridGraph(m,n,periodic):
+    return nx.grid_2d_graph(m,n,periodic)
+
+def RandomRegularGraph(d,n,seed = 'None'):
+    if seed == 'None':
+        return nx.random_regular_graph(d,n)
+    else:
+        return nx.random_regular_graph(d,n,seed)
