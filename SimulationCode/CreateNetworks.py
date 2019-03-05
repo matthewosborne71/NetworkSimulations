@@ -91,3 +91,9 @@ def RandomRegularGraph(d,n,seed = 'None'):
         return nx.random_regular_graph(d,n)
     else:
         return nx.random_regular_graph(d,n,seed)
+
+def RandomLobster(n,p1,p2,seed = 'None'):
+    if seed == 'None':
+        return nx.random_lobster(n,p1,p2)
+    else:
+        return nx.random_lobster(n,p1,p2,seed)
