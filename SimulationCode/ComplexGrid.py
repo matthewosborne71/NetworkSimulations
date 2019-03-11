@@ -4,11 +4,11 @@ import logging
 import numpy as np
 import Path
 
-Ns = [40,50,100,250,500]
-Ms = [25,20,10,4,2]
+Ns = [40,50,100]
+Ms = [25,20,10]
 Periodic = [True,False]
 
-Thresholds = np.arange(0.1,0.55,0.05)
+Thresholds = np.arange(0.1,0.5 + float(1)/float(6),float(1)/float(6))
 betas = [1.5]
 gamma = 1
 
@@ -18,18 +18,18 @@ StoppingTime = 5
 
 path = Path.GetPath()
 
-logging.basicConfig(filename = path + "Logs/ComplexSimSquareGrid.log",
+logging.basicConfig(filename = path + "Logs/ComplexSimGrid.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/ComplexContagionSimulations_SquareGrid.csv","w+")
+f = open(path + "SimulationResults/ComplexContagionSimulations_Lattice.csv","w+")
 
 f.write("N,M,Periodic,Threshold,beta,SimNum,EventTime,Event,CurrentI\n")
 
 TotalSims = len(Ns) * len(Periodic) * len(betas) * len(Thresholds) * NumSims
 CurrentSim = float(1)
 
-logging.info("About to run simple sims for Square Grid.")
+logging.info("About to run simple sims for Triangular Lattice.")
 
 for P in Periodic:
     for k in range(len(Ns)):

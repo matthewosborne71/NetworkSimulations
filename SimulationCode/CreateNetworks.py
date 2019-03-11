@@ -84,7 +84,7 @@ def BarabasiAlbert(n,m,seed = 'None'):
         return nx.barabasi_albert_graph(n,m,seed)
 
 def GridGraph(m,n,periodic):
-    return nx.grid_2d_graph(m,n,periodic)
+    return nx.triangular_lattice_graph(m,n,periodic)
 
 def RandomRegularGraph(d,n,seed = 'None'):
     if seed == 'None':
