@@ -4,8 +4,8 @@ import logging
 import numpy as np
 import Path
 
-Ns = [40,50,100]
-Ms = [25,20,10]
+Ns = [50,100,200]
+Ms = [40,20,10]
 Periodic = [True,False]
 
 betas = [1.5]
@@ -13,7 +13,7 @@ gamma = 1
 
 NumSims = 50
 InitialFrac = 0.01
-StoppingTime = 5
+StoppingTime = 20
 
 path = Path.GetPath()
 
