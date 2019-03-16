@@ -26,44 +26,50 @@ Thresholds = list(set(All.Threshold.values))
 Thresholds.sort()
 SimNums = list(set(All.SimNum.values))
 SimNums.sort()
+ms = list(set(All.m.values))
+ms.sort()
 
 All['Round'] = All['EventTime'].round(Round)
 
-for Threshold in Thresholds:
-    TheseEvents = All.loc[All.Threshold == Threshold,]
-    I = []
-    Inc = []
+for m in ms:
+    AllEvents = All.loc[All.m == m,]
+    for Threshold in Thresholds:
+        TheseEvents = AllEvents.loc[AllEvents.Threshold == Threshold,]
+        I = []
+        Inc = []
 
-    for Sim in SimNums:
-        ThisSim = TheseEvents.loc[TheseEvents.SimNum == Sim,]
-        c = ThisSim.groupby('Round').mean()['CurrentI']
-        d = ThisSim.loc[ThisSim.Event == "Infection",'Round'].value_counts()
-        for i in d.index:
-            I.append(c[i])
-            Inc.append(d[i])
+        for Sim in SimNums:
+            ThisSim = TheseEvents.loc[TheseEvents.SimNum == Sim,]
+            c = ThisSim.groupby('Round').mean()['CurrentI']
+            d = ThisSim.loc[ThisSim.Event == "Infection",'Round'].value_counts()
+            for i in d.index:
+                I.append(c[i])
+                Inc.append(d[i])
 
-        del c
-        del d
-        del ThisSim
+            del c
+            del d
+            del ThisSim
 
-    del TheseEvents
+        del TheseEvents
 
-    if First:
-        First = False
-        RData = pd.DataFrame({'I':I,'Inc':Inc})
-        del I
-        del Inc
-        RData['Threshold'] = Threshold
-    else:
-        A = pd.DataFrame({'I':I,'Inc':Inc})
-        del I
-        del Inc
-        A['Threshold'] = Threshold
-        RData = pd.concat([RData,A])
-        del A
-
+        if First:
+            First = False
+            RData = pd.DataFrame({'I':I,'Inc':Inc})
+            del I
+            del Inc
+            RData['Threshold'] = Threshold
+            RData['m'] = m
+        else:
+            A = pd.DataFrame({'I':I,'Inc':Inc})
+            del I
+            del Inc
+            A['Threshold'] = Threshold
+            A['m'] = m
+            RData = pd.concat([RData,A])
+            del A
+    del AllEvents
 del All
 
-RData = RData[['Threshold','I','Inc']]
-RData = RData.sort_values(['Threshold','I'])
+RData = RData[['m','Threshold','I','Inc']]
+RData = RData.sort_values(['m','Threshold','I'])
 RData.to_csv(path+CSV_Save_Name,index = False)

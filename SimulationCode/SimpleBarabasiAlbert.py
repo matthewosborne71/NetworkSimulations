@@ -7,7 +7,7 @@ import Path
 seed = 440
 
 Nodes = 1000
-m = 20
+ms = range(3,33,3)
 
 betas = [1.5]
 gamma = 1
@@ -33,28 +33,29 @@ CurrentSim = float(1)
 
 logging.info("About to run Simple Sims for BA network.")
 
-for beta in betas:
-    for i in range(1,NumSims+1):
-        logging.info("Currently at " + str(100*CurrentSim/float(TotalSims)) + "% of the Simulations Done.\n")
-        CurrentSim = CurrentSim + 1
-        if First:
-            G = CN.BarabasiAlbert(Nodes,m,seed)
-            First = False
-        else:
-            G = CN.BarabasiAlbert(Nodes,m)
+for m in ms:
+    for beta in betas:
+        for i in range(1,NumSims+1):
+            logging.info("Currently at " + str(100*CurrentSim/float(TotalSims)) + "% of the Simulations Done.\n")
+            CurrentSim = CurrentSim + 1
+            if First:
+                G = CN.BarabasiAlbert(Nodes,m,seed)
+                First = False
+            else:
+                G = CN.BarabasiAlbert(Nodes,m)
 
-        Times,Events,Is = S.SimpleSim(G,InitialFrac,StoppingTime,gamma,beta)
+            Times,Events,Is = S.SimpleSim(G,InitialFrac,StoppingTime,gamma,beta)
 
-        for j in range(len(Times)):
-            nodes = str(Nodes)
-            M = str(m)
-            Beta = str(beta)
-            SimNum = str(i)
-            EventTime = str(Times[j])
-            Event = str(Events[j])
-            CurrentI = str(Is[j])
-            f.write(nodes + "," + M + "," + Beta + "," + SimNum + "," + EventTime
-                    + "," + Event + "," + CurrentI + "\n")
+            for j in range(len(Times)):
+                nodes = str(Nodes)
+                M = str(m)
+                Beta = str(beta)
+                SimNum = str(i)
+                EventTime = str(Times[j])
+                Event = str(Events[j])
+                CurrentI = str(Is[j])
+                f.write(nodes + "," + M + "," + Beta + "," + SimNum + "," + EventTime
+                        + "," + Event + "," + CurrentI + "\n")
 
 f.close()
 
