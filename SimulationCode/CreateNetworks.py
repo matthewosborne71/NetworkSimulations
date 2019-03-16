@@ -36,6 +36,14 @@ def SmallWorld(n,k,p,seed = "None"):
 
     return G
 
+def SmallWorldNewman(n,k,p,seed = "None"):
+    if seed != "None":
+        G = nx.newman_watts_strogatz_graph(n,k,p,seed = seed)
+    else:
+        G = nx.newman_watts_strogatz_graph(n,k,p)
+
+    return G
+
 # This function will use networkx to read in the edgelist of the SNAP Facebook
 # network and create a networkx graph object. Note this requires the file,
 # facebook_combined.txt
