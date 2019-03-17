@@ -30,7 +30,7 @@ f = open(path + "SimulationResults/ComplexContagionSimulations_BA.csv","w+")
 
 f.write("Nodes,m,Threshold,beta,SimNum,EventTime,Event,CurrentI\n")
 
-TotalSims = len(Thresholds) * len(betas) * NumSims
+TotalSims = len(Thresholds) * len(betas) * NumSims * len(ms)
 CurrentSim = float(1)
 
 for m in ms:
@@ -60,6 +60,6 @@ for m in ms:
                             SimNum + "," + EventTime + "," + Event + "," + CurrentI
                             + "\n")
 
-    f.close()
+f.close()
 
 logging.info("All Done! :-D")

@@ -28,7 +28,7 @@ f = open(path + "SimulationResults/SimpleContagionSimulations_BA.csv","w+")
 
 f.write("Nodes,m,beta,SimNum,EventTime,Event,CurrentI\n")
 
-TotalSims = len(betas) * NumSims
+TotalSims = len(betas) * NumSims * len(ms)
 CurrentSim = float(1)
 
 logging.info("About to run Simple Sims for BA network.")
