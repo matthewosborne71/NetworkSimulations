@@ -23,7 +23,7 @@ for i in range(5):
         minI = c.I.values.min()
         maxI = c.I.values.max()
         xs = np.arange(minI,maxI,1)
-        k = smooth.NonParamRegression(c.I.values,c.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 100)
+        k = smooth.NonParamRegression(c.I.values,c.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 30)
         k.fit()
         ax[i/3,i%3].plot(c.I.values,c.Inc.values,'.')
         ax[i/3,i%3].plot(xs,k(xs),'-r',linewidth = 2)

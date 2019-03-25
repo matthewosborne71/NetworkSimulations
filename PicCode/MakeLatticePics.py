@@ -37,7 +37,7 @@ for P in [True,False]:
                 minI = d.I.values.min()
                 maxI = d.I.values.max()
                 xs = np.arange(minI,maxI,1)
-                k = smooth.NonParamRegression(d.I.values,d.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 100)
+                k = smooth.NonParamRegression(d.I.values,d.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
                 k.fit()
                 ax[i/2,i%2].plot(d.I.values,d.Inc.values,'.')
                 ax[i/2,i%2].plot(xs,k(xs),'-r',linewidth = 2)
