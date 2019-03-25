@@ -39,7 +39,7 @@ for P in Periodic:
                     logging.info("Currently at " + str(100*CurrentSim/float(TotalSims)) + "% of the Simulations Done.\n")
                     CurrentSim = CurrentSim + 1
 
-                    G = CN.GridGraph(Ns[k],Ms[k],P)
+                    G = CN.TriangularGridGraph(Ns[k],Ms[k],P)
 
                     Times,Events,Is = S.ComplexSim(G,InitialFrac,StoppingTime,gamma,beta,Thresh,"Frac")
 
