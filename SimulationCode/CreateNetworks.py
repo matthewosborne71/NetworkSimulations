@@ -61,7 +61,10 @@ def Block(sizes,probs,seed = "None"):
 
     return G
 
-def PowerLaw(n,exponent):
+def PowerLaw(n,exponent,seed = "None"):
+    if seed != "None":
+        np.random.seed(seed)
+
     DegDist = np.array([1,0])
 
     while sum(DegDist)%2 == 1:
@@ -91,8 +94,11 @@ def BarabasiAlbert(n,m,seed = 'None'):
     else:
         return nx.barabasi_albert_graph(n,m,seed)
 
-def GridGraph(m,n,periodic):
+def TriangularGridGraph(m,n,periodic):
     return nx.triangular_lattice_graph(m,n,periodic)
+
+def GridGraph(dim,periodic)
+    return nx.grid_graph(dim,periodic)
 
 def RandomRegularGraph(d,n,seed = 'None'):
     if seed == 'None':
