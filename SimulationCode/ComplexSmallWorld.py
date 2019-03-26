@@ -7,15 +7,16 @@ import Path
 seed = 440
 
 Nodes = 1000
-k = 10
+k = 6
 
-ps = np.arange(0,1.05,.05)
+ps = np.arange(.1,1.1,.1)
 
 gamma = 1
 
 betas = [1.5]
 
-Thresholds = np.arange(0.05,0.55,0.05)
+Thresholds = [0, float(1)/float(6), float(2)/float(6), float(3)/float(6),
+                float(4)/float(6)]
 
 
 NumSims = 50
@@ -30,7 +31,7 @@ logging.basicConfig(filename = path + "Logs/ComplexSimSmall.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/ComplexContagionSimulations_SmallWorld.csv","w+")
+f = open(path + "SimulationResults/ComplexComparison_SmallWorld.csv","w+")
 #f = open(path + "ComplexContagionSimulations_SmallWorld.csv","w+")
 f.write("Nodes,k,RewiringProb,beta,Threshold,SimNum,EventTime,Event,CurrentI\n")
 

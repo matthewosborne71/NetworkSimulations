@@ -7,7 +7,7 @@ import Path
 seed = 440
 
 Nodes = 1000
-d = 20
+d = 6
 
 betas = [1.5]
 gamma = 1
@@ -24,7 +24,7 @@ logging.basicConfig(filename = path + "Logs/SimpleSimRandomRegular.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/SimpleContagionSimulations_RandomRegular.csv","w+")
+f = open(path + "SimulationResults/SimpleComparison_RandomRegular.csv","w+")
 
 f.write("Nodes,d,beta,SimNum,EventTime,Event,CurrentI\n")
 

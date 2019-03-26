@@ -7,7 +7,7 @@ import Path
 seed = 440
 
 Nodes = [1000]
-EdgeProbs = [0.1]
+EdgeProbs = [0.006]
 betas = [1.5]
 
 gamma = 1
@@ -16,7 +16,7 @@ NumSims = 50
 
 InitialFrac = 0.01
 
-StoppingTime = 3
+StoppingTime = 5
 
 path = Path.GetPath()
 
@@ -26,7 +26,7 @@ logging.basicConfig(filename = path + "Logs/SimpleSimER.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/SimpleContagionSimulations_10_ER.csv","w+")
+f = open(path + "SimulationResults/SimpleComparison_ER.csv","w+")
 f.write("Nodes,EdgeProb,beta,SimNum,EventTime,Event,CurrentI\n")
 
 TotalSims = len(Nodes) * len(EdgeProbs) * len(betas) * NumSims

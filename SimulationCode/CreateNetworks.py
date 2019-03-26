@@ -95,9 +95,15 @@ def BarabasiAlbert(n,m,seed = 'None'):
         return nx.barabasi_albert_graph(n,m,seed)
 
 def TriangularGridGraph(m,n,periodic):
+    # Note m is number of columns of triangles
+    # n is number of rows of triangles
+    # To get the number of nodes in the network we have the following
+    # n - odd, m - odd: (m+1)/2 * (n+2)
+    # n - odd, m - even: (m/2 + 1) * ((n+1)/2 + 1) + (m/2) * ((n+1)/2)
+    # n - even, m - either: (m+1) * (n+2/2)
     return nx.triangular_lattice_graph(m,n,periodic)
 
-def GridGraph(dim,periodic)
+def GridGraph(dim,periodic):
     return nx.grid_graph(dim,periodic)
 
 def RandomRegularGraph(d,n,seed = 'None'):

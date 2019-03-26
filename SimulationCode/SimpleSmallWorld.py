@@ -7,9 +7,9 @@ import Path
 seed = 440
 
 Nodes = 1000
-k = 10
+k = 6
 
-ps = np.arange(0,1.05,.05)
+ps = np.arange(0.1,1.1,.1)
 
 gamma = 1
 
@@ -28,7 +28,7 @@ logging.basicConfig(filename = path + "Logs/SimpleSimSmall.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/SimpleContagionSimulations_SmallWorld.csv","w+")
+f = open(path + "SimulationResults/SimpleComparison_SmallWorld.csv","w+")
 #f = open(path + "SimpleContagionSimulations_SmallWorld.csv","w+")
 f.write("Nodes,k,RewiringProb,beta,SimNum,EventTime,Event,CurrentI\n")
 
