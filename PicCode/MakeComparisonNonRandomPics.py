@@ -7,56 +7,55 @@ import Path
 
 path = Path.GetHomePath()
 
-a = pd.read_csv(path + r"SimulationResults\\Comparison_k_2\\Comparison_NegativeBinomial.csv")
+a = pd.read_csv(path + r"SimulationResults\\Aggregate_NonRandom.csv")
+
+Types = list(set(a.NetworkType.values))
 
 
-Nums = list(set(a.Num_Success.values))
-Thresholds = list(set(a.Threshold.values))
-Nums.sort()
-Thresholds.sort()
+time = float(10)**(-1)
 
-time = float(10)**(-2)
 
+xlim = (0,1000)
 row = 2
 col = 3
-xlim = (0,1000)
 
-for num in Nums:
-    b = a.loc[a.Num_Success == num,]
-    probs = list(set(b.Prob.values))
-    probs.sort()
-    for p in probs:
-        c = b.loc[b.Prob == p,]
+for Type in Types:
+    TypeDF = a.loc[a.NetworkType == Type,]
+    Features = list(set(TypeDF.FeatureStat.values))
+    for Feature in Features:
+        FeatureDF = TypeDF.loc[TypeDF.FeatureStat == Feature,]
+        Thresholds = list(set(FeatureDF.Threshold.values))
+        Thresholds.sort()
 
-        fig,ax = plt.subplots(row,col,sharex = 'col',sharey = 'row',figsize = [12,8])
+        fig,ax = plt.subplots(2,3,sharex = 'col', sharey = 'row',figsize = [12,8])
         for i in range(len(Thresholds)):
-            d = c.loc[c.Threshold == Thresholds[i],]
+            c = FeatureDF.loc[FeatureDF.Threshold == Thresholds[i],]
             if len(c) > 10:
                 minI = c.I.values.min()
                 maxI = c.I.values.max()
                 xs = np.arange(minI,maxI,1)
-                k = smooth.NonParamRegression(d.I.values,d.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
+                k = smooth.NonParamRegression(c.I.values,c.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
                 k.fit()
-                ax[i/col,i%col].plot(d.I.values,d.Inc.values,'.')
+
+                ax[i/col,i%col].plot(c.I.values,c.Inc.values,'.')
                 ax[i/col,i%col].plot(xs,k(xs),'r-',linewidth = 2)
                 ax[i/col,i%col].set_title("Threshold: " + str(np.round(Thresholds[i],4)))
                 ylim = ax[0,0].get_ylim()
                 ax[i/col,i%col].set_ylim(ylim)
                 ax[i/col,i%col].set_xlim(xlim)
             else:
-                ax[i/col,i%col].plot(d.I.values,d.Inc.values,'.')
+                ax[i/col,i%col].plot(c.I.values,c.Inc.values,'.')
                 ax[i/col,i%col].set_title("Threshold: " + str(np.round(Thresholds[i],4)))
                 ylim = ax[0,0].get_ylim()
                 ax[i/col,i%col].set_ylim(ylim)
                 ax[i/col,i%col].set_xlim(xlim)
 
-            del d
-
-        fig.suptitle("Negative Binomial - Config., Num Success: " + str(num) + ", Prob:" + str(np.round(p,4)))
+        fig.suptitle("NonRandom Comparison: " + Type + ": " + Feature)
         fig.text(0.5,0.04,"I",ha = "center")
         fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-        plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_2\\NegativeBinomialIncidence_Num_" + str(num) + "_Prob_" + str(np.round(p,2)) + ".png")
+        plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\NonRandom_" + Type + "_Feature_" + Feature + ".png")
         plt.close()
         del fig
         del ax
-        del c
+        del FeatureDF
+    del TypeDF

@@ -76,7 +76,10 @@ def PowerLaw(n,exponent,seed = "None"):
     G.remove_edges_from(G.selfloop_edges())
     return G
 
-def NegativeBinomial(n,p,num_succ):
+def NegativeBinomial(n,p,num_succ,seed = "None"):
+    if seed != "None":
+        np.random.seed(seed)
+        
     DegDist = np.array([1,0])
 
     while sum(DegDist) % 2 ==1:

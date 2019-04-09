@@ -7,10 +7,15 @@ import Path
 seed = 440
 
 Nodes = [1000]
-EdgeProbs = [0.006]
+
+# k = 2
+EdgeProbs = [0.002]
+
+# k = 6
+# EdgeProbs = [0.006]
+
 betas = [1.5]
-Thresholds = [0, float(1)/float(6), float(2)/float(6), float(3)/float(6),
-                float(4)/float(6)]
+Thresholds = [.05,.1,.15,.2]
 
 gamma = 1
 
@@ -18,7 +23,7 @@ NumSims = 30
 
 InitialFrac = 0.01
 
-StoppingTime = 3
+StoppingTime = 20
 
 path = Path.GetPath()
 

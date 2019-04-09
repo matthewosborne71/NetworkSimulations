@@ -8,8 +8,12 @@ seed = 440
 np.random.seed(seed)
 
 Nodes = 1000
-exps = np.arange(2,3.1,.1)
-exps = np.append(exps,5)
+
+# k = 2
+exps = [2.478]
+
+# k = 6
+# exps = [2.1145]
 
 gamma = 1
 beta = 1.5
@@ -25,7 +29,7 @@ logging.basicConfig(filename = path + "Logs/SimpleSimPowerLaw.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/SimpleContagionSimulations_PowerLaw.csv","w+")
+f = open(path + "SimulationResults/SimpleComparison_PowerLaw.csv","w+")
 f.write("Nodes,exponent,beta,SimNum,EventTime,Event,CurrentI\n")
 
 TotalSims = len(exps)*NumSims

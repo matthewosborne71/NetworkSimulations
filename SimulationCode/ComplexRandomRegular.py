@@ -7,7 +7,7 @@ import Path
 seed = 440
 
 Nodes = 1000
-d = 6
+d = 2
 
 Thresholds = [0, float(1)/float(6), float(2)/float(6), float(3)/float(6),
                 float(4)/float(6)]
@@ -27,7 +27,7 @@ logging.basicConfig(filename = path + "Logs/ComplexSimRandomRegular.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/ComplexComparison_RandomRegular.csv","w+")
+f = open(path + "SimulationResults/ComplexComparison_RandomRegular_2.csv","w+")
 
 f.write("Nodes,d,Threshold,beta,SimNum,EventTime,Event,CurrentI\n")
 

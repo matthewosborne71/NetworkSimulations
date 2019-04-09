@@ -7,14 +7,19 @@ import Path
 seed = 440
 
 Nodes = 1000
-ms = range(3,33,3)
+
+# k = 2
+ms = [1]
+
+# k = 6
+# ms = [3]
 
 betas = [1.5]
 gamma = 1
 
 NumSims = 50
 InitialFrac = 0.01
-StoppingTime = 2
+StoppingTime = 20
 
 path = Path.GetPath()
 
@@ -24,7 +29,7 @@ logging.basicConfig(filename = path + "Logs/SimpleSimBA.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/SimpleContagionSimulations_BA.csv","w+")
+f = open(path + "SimulationResults/SimpleComparison_BA.csv","w+")
 
 f.write("Nodes,m,beta,SimNum,EventTime,Event,CurrentI\n")
 

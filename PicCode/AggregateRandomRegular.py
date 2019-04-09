@@ -3,9 +3,9 @@ import Path
 
 First = True
 path = Path.GetPath()
-ComplexFile = "SimulationResults/ComplexContagionSimulations_RandomRegular.csv"
-SimpleFile = "SimulationResults/SimpleContagionSimulations_RandomRegular.csv"
-CSV_Save_Name = "SimulationResults/RData_RandomRegular.csv"
+ComplexFile = "SimulationResults/ComplexComparison_RandomRegular.csv"
+SimpleFile = "SimulationResults/SimpleComparison_RandomRegular.csv"
+CSV_Save_Name = "SimulationResults/Comparison_RandomRegular.csv"
 
 Round = 2
 

@@ -7,16 +7,21 @@ import Path
 seed = 440
 
 Nodes = 1000
-ms = range(3,33,3)
 
-Thresholds = np.arange(0.05,.45,0.05)
+# k = 2
+ms = [1]
+
+# k = 6
+# ms = [3]
+
+Thresholds = [.05,.1,.15,.2]
 
 betas = [1.5]
 gamma = 1
 
 NumSims = 50
 InitialFrac = 0.01
-StoppingTime = 2
+StoppingTime = 20
 
 path = Path.GetPath()
 
@@ -26,7 +31,7 @@ logging.basicConfig(filename = path + "Logs/ComplexSimBA.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/ComplexContagionSimulations_BA.csv","w+")
+f = open(path + "SimulationResults/ComplexComparison_BA.csv","w+")
 
 f.write("Nodes,m,Threshold,beta,SimNum,EventTime,Event,CurrentI\n")
 

@@ -5,13 +5,17 @@ import numpy as np
 import Path
 
 Nodes = 1000
-exps = np.arange(2,3.1,.1)
-exps = np.append(exps,5)
+
+# k = 2
+exps = [2.478]
+
+# k = 6
+# exps = [2.1145]
 
 gamma = 1
 beta = 1.5
 
-Thresholds = np.arange(0.01,.2,.01)
+Thresholds = [.05,.1,.15,.2]
 
 NumSims = 50
 InitialFrac = 0.01
@@ -25,7 +29,7 @@ logging.basicConfig(filename = path + "Logs/ComplexSimPowerLaw.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/ComplexContagionSimulations_PowerLaw.csv","w+")
+f = open(path + "SimulationResults/ComplexComparison_PowerLaw.csv","w+")
 f.write("Nodes,exponent,beta,Threshold,SimNum,EventTime,Event,CurrentI\n")
 
 TotalSims = len(exps)*len(Thresholds)*NumSims

@@ -3,9 +3,9 @@ import Path
 
 First = True
 path = Path.GetPath()
-ComplexFile = "SimulationResults/ComplexContagionSimulations_NegativeBinomial.csv"
-SimpleFile = "SimulationResults/SimpleContagionSimulations_NegativeBinomial.csv"
-CSV_Save_Name = "SimulationResults/RData_NegativeBinomial.csv"
+ComplexFile = "SimulationResults/ComplexComparison_NegativeBinomial.csv"
+SimpleFile = "SimulationResults/SimpleComparison_NegativeBinomial.csv"
+CSV_Save_Name = "SimulationResults/Comparison_NegativeBinomial.csv"
 
 Complex = pd.read_csv(path + ComplexFile)
 Simple = pd.read_csv(path + SimpleFile)
@@ -17,21 +17,22 @@ All = pd.concat([Simple,Complex])
 del Complex
 del Simple
 
-Round = 3
+Round = 1
 
 All['Round'] = All['EventTime'].round(Round)
 
-probs = list(set(All.Prob.values))
+
 Nums = list(set(All.Num_Success.values))
 Thresholds = list(set(All.Threshold.values))
 SimNums = list(set(All.SimNum.values))
 SimNums.sort()
-probs.sort()
 Nums.sort()
 Thresholds.sort()
 
 for num in Nums:
     ThatNum = All.loc[All.Num_Success == num,]
+    probs = list(set(ThatNum.Prob.values))
+    probs.sort()
     for p in probs:
         AllEvents = ThatNum.loc[ThatNum.Prob == p,]
         for Threshold in Thresholds:

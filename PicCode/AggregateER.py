@@ -4,9 +4,9 @@ import Path
 
 First = True
 path = Path.GetPath()
-ComplexFile = "SimulationResults/ComplexContagionSimulations_ER.csv"
-SimpleFile = "SimulationResults/SimpleContagionSimulations_ER2.csv"
-CSV_Save_Name = "SimulationResults/RData_ERSims.csv"
+ComplexFile = "SimulationResults/ComplexComparison_ER.csv"
+SimpleFile = "SimulationResults/SimpleComparison_ER.csv"
+CSV_Save_Name = "SimulationResults/Comparison_ERSims.csv"
 
 logging.basicConfig(filename = path + "Logs/RDataER.log",
                     format = '%(asctime)s - %(message)s',
@@ -16,6 +16,8 @@ logging.info("Reading in Data\n")
 
 Complex = pd.read_csv(path + ComplexFile)
 Simple = pd.read_csv(path + SimpleFile)
+
+Simple['Threshold'] = 0
 
 All = pd.concat([Simple,Complex])
 
@@ -39,7 +41,7 @@ for EdgeProb in EdgeProbs:
     logging.info("Running for EdgeProb: " + str(EdgeProb) + "\n")
     AllEvents = All.loc[All.EdgeProb == EdgeProb,]
     if EdgeProb < 0.1:
-        AllEvents['Round'] = AllEvents['EventTime'].round(2)
+        AllEvents['Round'] = AllEvents['EventTime'].round(1)
     elif EdgeProb < 0.3:
         AllEvents['Round'] = AllEvents['EventTime'].round(3)
     else:

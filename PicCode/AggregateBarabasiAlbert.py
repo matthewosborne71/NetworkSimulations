@@ -3,11 +3,11 @@ import Path
 
 First = True
 path = Path.GetPath()
-ComplexFile = "SimulationResults/ComplexContagionSimulations_BA.csv"
-SimpleFile = "SimulationResults/SimpleContagionSimulations_BA.csv"
-CSV_Save_Name = "SimulationResults/RData_BA.csv"
+ComplexFile = "SimulationResults/ComplexComparison_BA.csv"
+SimpleFile = "SimulationResults/SimpleComparison_BA.csv"
+CSV_Save_Name = "SimulationResults/Comparison_BA.csv"
 
-Round = 2
+Round = 1
 
 Complex = pd.read_csv(path + ComplexFile)
 Simple = pd.read_csv(path + SimpleFile)
