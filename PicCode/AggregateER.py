@@ -51,6 +51,7 @@ for EdgeProb in EdgeProbs:
         TheseEvents = AllEvents.loc[AllEvents.Threshold == Threshold,]
         I = []
         Inc = []
+        Sims = []
 
         for Sim in SimNums:
             ThisSim = TheseEvents.loc[TheseEvents.SimNum == Sim,]
@@ -59,6 +60,7 @@ for EdgeProb in EdgeProbs:
             for i in d.index:
                 I.append(c[i])
                 Inc.append(d[i])
+                Sims.append(Sim)
 
             del c
             del d
@@ -69,15 +71,17 @@ for EdgeProb in EdgeProbs:
 
         if First:
             First = False
-            RData = pd.DataFrame({'I':I,'Inc':Inc})
+            RData = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
             del I
             del Inc
+            del Sims
             RData['EdgeProb'] = EdgeProb
             RData['Threshold'] = Threshold
         else:
-            A = pd.DataFrame({'I':I,'Inc':Inc})
+            A = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
             del I
             del Inc
+            del Sims
             A['EdgeProb'] = EdgeProb
             A['Threshold'] = Threshold
             RData = pd.concat([RData,A])
@@ -85,6 +89,6 @@ for EdgeProb in EdgeProbs:
 
     del AllEvents
 
-RData = RData[['EdgeProb','Threshold','I','Inc']]
-RData = RData.sort_values(['EdgeProb','Threshold','I'])
+RData = RData[['EdgeProb','Threshold','Sim','I','Inc']]
+RData = RData.sort_values(['EdgeProb','Threshold','Sim','I'])
 RData.to_csv(path + CSV_Save_Name,index = False)

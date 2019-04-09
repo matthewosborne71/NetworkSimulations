@@ -37,6 +37,7 @@ for p in ShortCutProbs:
 		TheseEvents = AllEvents.loc[AllEvents.Threshold == Threshold,]
 		I = []
 		Inc = []
+		Sims = []
 
 		for Sim in SimNums:
 			ThisSim = TheseEvents.loc[TheseEvents.SimNum == Sim,]
@@ -45,6 +46,7 @@ for p in ShortCutProbs:
 			for i in d.index:
 				I.append(c[i])
 				Inc.append(d[i])
+				Sims.append(Sim)
 
 			del c
 			del d
@@ -54,15 +56,17 @@ for p in ShortCutProbs:
 
 		if First:
 			First = False
-			RData = pd.DataFrame({'I':I,'Inc':Inc})
+			RData = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
 			del I
 			del Inc
+			del Sims
 			RData['Threshold'] = Threshold
 			RData['ShortCutProb'] = p
 		else:
-			A = pd.DataFrame({'I':I,'Inc':Inc})
+			A = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
 			del I
 			del Inc
+			del Sims
 			A['Threshold'] = Threshold
 			A['ShortCutProb'] = p
 			RData = pd.concat([RData,A])
@@ -70,6 +74,6 @@ for p in ShortCutProbs:
 	del AllEvents
 del All
 
-RData = RData[['ShortCutProb','Threshold','I','Inc']]
-RData = RData.sort_values(['ShortCutProb','Threshold','I'])
+RData = RData[['ShortCutProb','Threshold','Sim','I','Inc']]
+RData = RData.sort_values(['ShortCutProb','Threshold','Sim','I'])
 RData.to_csv(path + CSV_Save_Name,index=False)

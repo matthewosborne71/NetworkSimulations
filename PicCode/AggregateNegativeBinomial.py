@@ -40,6 +40,7 @@ for num in Nums:
 
             I = []
             Inc = []
+            Sims = []
 
             for Sim in SimNums:
                 ThisSim = TheseEvents.loc[TheseEvents.SimNum == Sim,]
@@ -48,6 +49,7 @@ for num in Nums:
                 for i in d.index:
                     I.append(c[i])
                     Inc.append(d[i])
+                    Sims.append(Sim)
 
                 del c
                 del d
@@ -57,17 +59,19 @@ for num in Nums:
 
             if First:
                 First = False
-                RData = pd.DataFrame({'I':I,'Inc':Inc})
+                RData = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
                 del I
                 del Inc
+                del Sims
                 RData = RData.sort_values(['I'])
                 RData['Num_Success'] = num
                 RData['Prob'] = p
                 RData['Threshold'] = Threshold
             else:
-                A = pd.DataFrame({'I':I,'Inc':Inc})
+                A = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
                 del I
                 del Inc
+                del Sims
                 A.sort_values(['I'])
                 A['Num_Success'] = num
                 A['Prob'] = p
@@ -77,5 +81,8 @@ for num in Nums:
 
         del AllEvents
     del ThatNum
+
+RData = RData[['Prob','Num_Success','Threshold','Sim','I','Inc']]
+RData = RData.sort_values(['Prob','Num_Success','Threshold','Sim','I'])
 
 RData.to_csv(path + CSV_Save_Name,index = False)

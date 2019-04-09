@@ -37,6 +37,7 @@ for e in exps:
 		TheseEvents = AllEvents.loc[AllEvents.Threshold == Threshold,]
 		I = []
 		Inc = []
+		Sims = []
 
 		for Sim in SimNums:
 			ThisSim = TheseEvents.loc[TheseEvents.SimNum == Sim,]
@@ -45,6 +46,7 @@ for e in exps:
 			for i in d.index:
 				I.append(c[i])
 				Inc.append(d[i])
+				Sims.append(Sim)
 
 			del c
 			del d
@@ -54,15 +56,17 @@ for e in exps:
 
 		if First:
 			First = False
-			RData = pd.DataFrame({'I':I,'Inc':Inc})
+			RData = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
 			del I
 			del Inc
+			del Sims
 			RData['Threshold'] = Threshold
 			RData['exponent'] = e
 		else:
-			A = pd.DataFrame({'I':I,'Inc':Inc})
+			A = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
 			del I
 			del Inc
+			del Sims
 			A['Threshold'] = Threshold
 			A['exponent'] = e
 			RData = pd.concat([RData,A])
@@ -70,6 +74,6 @@ for e in exps:
 	del AllEvents
 del All
 
-RData = RData[['exponent','Threshold','I','Inc']]
-RData = RData.sort_values(['exponent','Threshold','I'])
+RData = RData[['exponent','Threshold','Sim','I','Inc']]
+RData = RData.sort_values(['exponent','Threshold','Sim','I'])
 RData.to_csv(path + CSV_Save_Name,index=False)
