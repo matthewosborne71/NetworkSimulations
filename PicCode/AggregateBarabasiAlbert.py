@@ -38,6 +38,7 @@ for m in ms:
         I = []
         Inc = []
         Sims = []
+        Times = []
 
         for Sim in SimNums:
             ThisSim = TheseEvents.loc[TheseEvents.SimNum == Sim,]
@@ -47,6 +48,7 @@ for m in ms:
                 I.append(c[i])
                 Inc.append(d[i])
                 Sims.append(Sim)
+                Times.append(i)
 
             del c
             del d
@@ -56,14 +58,14 @@ for m in ms:
 
         if First:
             First = False
-            RData = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
+            RData = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc,'EventTime':Times})
             del I
             del Inc
             del Sims
             RData['Threshold'] = Threshold
             RData['m'] = m
         else:
-            A = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
+            A = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc,'EventTime':Times})
             del I
             del Inc
             del Sims
@@ -74,6 +76,6 @@ for m in ms:
     del AllEvents
 del All
 
-RData = RData[['m','Threshold','Sim','I','Inc']]
+RData = RData[['m','Threshold','Sim','I','Inc','EventTime']]
 RData = RData.sort_values(['m','Threshold','Sim','I'])
 RData.to_csv(path+CSV_Save_Name,index = False)

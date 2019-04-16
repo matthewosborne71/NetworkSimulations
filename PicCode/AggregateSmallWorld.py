@@ -47,6 +47,7 @@ for p in RewiringProbs:
 				I.append(c[i])
 				Inc.append(d[i])
 				Sims.append(Sim)
+				Times.append(i)
 
 			del c
 			del d
@@ -56,14 +57,14 @@ for p in RewiringProbs:
 
 		if First:
 			First = False
-			RData = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
+			RData = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc,'EventTime':Times})
 			del I
 			del Inc
 			del Sims
 			RData['Threshold'] = Threshold
 			RData['RewiringProb'] = p
 		else:
-			A = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc})
+			A = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc,'EventTime':Times})
 			del I
 			del Inc
 			del Sims
@@ -74,6 +75,6 @@ for p in RewiringProbs:
 	del AllEvents
 del All
 
-RData = RData[['RewiringProb','Threshold','Sim','I','Inc']]
+RData = RData[['RewiringProb','Threshold','Sim','I','Inc','EventTime']]
 RData = RData.sort_values(['RewiringProb','Threshold','Sim','I'])
 RData.to_csv(path + CSV_Save_Name,index=False)
