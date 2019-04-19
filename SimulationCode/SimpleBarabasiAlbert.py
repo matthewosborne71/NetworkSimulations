@@ -9,10 +9,13 @@ seed = 440
 Nodes = 1000
 
 # k = 2
-ms = [1]
+# ms = [1]
 
 # k = 6
 # ms = [3]
+
+# k = 40
+ms = [20]
 
 betas = [1.5]
 gamma = 1

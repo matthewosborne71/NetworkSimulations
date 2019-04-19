@@ -38,6 +38,7 @@ for p in RewiringProbs:
 		I = []
 		Inc = []
 		Sims = []
+		Times = []
 
 		for Sim in SimNums:
 			ThisSim = TheseEvents.loc[TheseEvents.SimNum == Sim,]

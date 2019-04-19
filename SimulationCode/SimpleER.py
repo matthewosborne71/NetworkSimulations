@@ -9,10 +9,13 @@ seed = 440
 Nodes = [1000]
 
 # k = 2
-EdgeProbs = [0.002]
+# EdgeProbs = [0.002]
 
 # k = 6
 # EdgeProbs = [0.006]
+
+# k = 40
+EdgeProbs = [0.04]
 
 betas = [1.5]
 
@@ -22,7 +25,7 @@ NumSims = 50
 
 InitialFrac = 0.01
 
-StoppingTime = 20
+StoppingTime = 5
 
 path = Path.GetPath()
 

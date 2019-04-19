@@ -7,19 +7,22 @@ import Path
 Nodes = 1000
 
 # k = 2
-exps = [2.478]
+#exps = [2.478]
 
 # k = 6
 # exps = [2.1145]
 
+# k = 40
+exps = [2.015]
+
 gamma = 1
 beta = 1.5
 
-Thresholds = [.05,.1,.15,.2]
+Thresholds = [.01,.02,.03,.04,.05,.06,.07]
 
 NumSims = 50
 InitialFrac = 0.01
-StoppingTime = 20
+StoppingTime = 5
 
 path = Path.GetPath()
 

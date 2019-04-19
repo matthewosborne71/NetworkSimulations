@@ -10,19 +10,23 @@ np.random.seed(seed)
 Nodes = 1000
 
 # k = 2
-probs = [.5,.6,.75,.8]
-num_successes = [2,3,6,8]
+#probs = [.5,.6,.75,.8]
+#num_successes = [2,3,6,8]
 
 # k = 6
-# probs = [.4,.5,.6,]
-# num_successes = [4,6,9]
+#probs = [.25,.4,.5,.6]
+#num_successes = [2,4,6,9]
+
+# k = 40
+probs = [.33333,.5,.6]
+num_successes = [20,40,60]
 
 gamma = 1
 beta = 1.5
 
 NumSims = 50
 InitialFrac = 0.01
-StoppingTime = 20
+StoppingTime = 5
 
 path = Path.GetPath()
 

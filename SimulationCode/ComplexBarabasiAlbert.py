@@ -9,19 +9,22 @@ seed = 440
 Nodes = 1000
 
 # k = 2
-ms = [1]
+# ms = [1]
 
 # k = 6
 # ms = [3]
 
-Thresholds = [.05,.1,.15,.2]
+# k = 40
+ms = [20]
+
+Thresholds = [.01,.02,.03,.04,.05,.06,.07]
 
 betas = [1.5]
 gamma = 1
 
 NumSims = 50
 InitialFrac = 0.01
-StoppingTime = 20
+StoppingTime = 5
 
 path = Path.GetPath()
 

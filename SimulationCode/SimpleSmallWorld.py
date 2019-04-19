@@ -7,9 +7,11 @@ import Path
 seed = 440
 
 Nodes = 1000
-k = 2
+#k = 2
 
-# k = 6
+#k = 6
+
+k = 40
 
 ps = np.arange(0.1,1.1,.1)
 
@@ -20,7 +22,7 @@ betas = [1.5]
 
 NumSims = 50
 InitialFrac = 0.01
-StoppingTime = 20
+StoppingTime = 5
 
 path = Path.GetPath()
 
