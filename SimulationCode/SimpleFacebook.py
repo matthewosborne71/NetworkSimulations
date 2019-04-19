@@ -6,7 +6,7 @@ import Path
 seed = 440
 
 InitialFrac = .01
-StoppingTime = 7
+StoppingTime = 10
 gamma = 1
 First = True
 

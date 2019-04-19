@@ -7,13 +7,13 @@ import Path
 seed = 440
 
 InitialFrac = .01
-StoppingTime = 7
+StoppingTime = 10
 gamma = 1
 First = True
 
 
 betas = [1.5]
-Thresholds = np.arange(.025,1,.025)
+Thresholds = [.01,.02,.03,.04,.05,.06,.07]
 NumSims = 50
 
 path = Path.GetPath()

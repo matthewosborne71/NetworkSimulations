@@ -5,7 +5,7 @@ First = True
 path = Path.GetPath()
 ComplexFile = "SimulationResults/ComplexContagionSimulations_Facebook.csv"
 SimpleFile = "SimulationResults/SimpleContagionSimulations_Facebook.csv"
-CSV_Save_Name = "SimulationResults/RData_Facebook.csv"
+CSV_Save_Name = "SimulationResults/Comparison_Facebook.csv"
 
 Round = 2
 
@@ -31,6 +31,7 @@ for Threshold in Thresholds:
     TheseEvents = All.loc[All.Threshold == Threshold,]
     I = []
     Inc = []
+    Times = []
 
     for Sim in SimNums:
         ThisSim = TheseEvents.loc[TheseEvents.SimNum == Sim,]
@@ -39,6 +40,7 @@ for Threshold in Thresholds:
         for i in d.index:
             I.append(c[i])
             Inc.append(d[i])
+            Times.append(i)
 
         del c
         del d
@@ -48,13 +50,15 @@ for Threshold in Thresholds:
 
     if First:
         First = False
-        RData = pd.DataFrame({'I':I,'Inc':Inc})
+        RData = pd.DataFrame({'I':I,'Inc':Inc,'EventTime':Times})
         del I
+        del Times
         del Inc
         RData['Threshold'] = Threshold
     else:
-        A = pd.DataFrame({'I':I,'Inc':Inc})
+        A = pd.DataFrame({'I':I,'Inc':Inc,'EventTime':Times})
         del I
+        del Times
         del Inc
         A['Threshold'] = Threshold
         RData = pd.concat([RData,A])
@@ -62,6 +66,6 @@ for Threshold in Thresholds:
 
 del All
 
-RData = RData[['Threshold','I','Inc']]
+RData = RData[['Threshold','I','Inc','EventTime']]
 RData = RData.sort_values(['Threshold','I'])
 RData.to_csv(path+CSV_Save_Name,index = False)
