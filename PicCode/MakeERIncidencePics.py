@@ -7,9 +7,14 @@ import Path
 
 path = Path.GetHomePath()
 
-a = pd.read_csv(path + r"SimulationResults\\Comparison_k_2\\Comparison_ERSims.csv")
+a = pd.read_csv(path + r"SimulationResults\\Comparison_k_6\\Comparison_ERSims.csv")
+
+Time = 2
+
+a = a.loc[a.EventTime < Time,]
 # Only use when trimming data
 #a = a.loc[a.I <= 100,]
+
 
 EdgeProbs = list(set(a.EdgeProb.values))
 Thresholds = list(set(a.Threshold.values))
@@ -69,7 +74,7 @@ for e in EdgeProbs:
     # Untrimmed
     #plt.savefig(path + r"SimulationResults\\FOI_Pics\\ER\\ER_Incidence_EP_" + str(e) + ".png")
     # Trimmed
-    plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_2\\ER_Incidence_Trimmed_EP_" + str(e) + ".png")
+    plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_6\\ER_Incidence_EP_" + str(e) + ".png")
     plt.close()
     del fig
     del ax

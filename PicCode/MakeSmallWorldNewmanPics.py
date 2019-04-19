@@ -7,7 +7,11 @@ import Path
 
 path = Path.GetHomePath()
 
+Time = 5
+
 a = pd.read_csv(path + r"SimulationResults\\Comparison_k_2\\Comparison_SmallWorldNewman.csv")
+
+a = a.loc[a.EventTime < Time,]
 
 ShortCutProbs = list(set(a.ShortCutProb.values))
 Thresholds = list(set(a.Threshold.values))

@@ -7,7 +7,11 @@ import Path
 
 path = Path.GetHomePath()
 
+Time = 20
+
 a = pd.read_csv(path + r"SimulationResults\\Comparison_k_2\\Comparison_SmallWorld.csv")
+
+a = a.loc[a.EventTime < Time, ]
 
 RewiringProbs = list(set(a.RewiringProb.values))
 Thresholds = list(set(a.Threshold.values))

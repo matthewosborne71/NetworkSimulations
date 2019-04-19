@@ -7,7 +7,11 @@ import Path
 
 path = Path.GetHomePath()
 
-a = pd.read_csv(path + r"SimulationResults\\Comparison_k_2\\Comparison_NegativeBinomial.csv")
+Time = 1.5
+
+a = pd.read_csv(path + r"SimulationResults\\Comparison_k_6\\Comparison_NegativeBinomial.csv")
+
+a = a.loc[a.EventTime < Time,]
 
 
 Nums = list(set(a.Num_Success.values))
@@ -35,6 +39,7 @@ for num in Nums:
                 minI = c.I.values.min()
                 maxI = c.I.values.max()
                 xs = np.arange(minI,maxI,1)
+
                 k = smooth.NonParamRegression(d.I.values,d.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
                 k.fit()
                 ax[i/col,i%col].plot(d.I.values,d.Inc.values,'.')
@@ -55,7 +60,7 @@ for num in Nums:
         fig.suptitle("Negative Binomial - Config., Num Success: " + str(num) + ", Prob:" + str(np.round(p,4)))
         fig.text(0.5,0.04,"I",ha = "center")
         fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-        plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_2\\NegativeBinomialIncidence_Num_" + str(num) + "_Prob_" + str(np.round(p,2)) + ".png")
+        plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_6\\NegativeBinomialIncidence_Num_" + str(num) + "_Prob_" + str(np.round(p,2)) + ".png")
         plt.close()
         del fig
         del ax

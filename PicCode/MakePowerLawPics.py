@@ -6,17 +6,19 @@ from pyqt_fit import npr_methods
 import Path
 import seaborn as sns
 
+Time = 2
+
 #kind = "BySimulation"
 kind = "Incidence"
 
 path = Path.GetHomePath()
-SourceFile = r"SimulationResults\\Comparison_k_2\\Comparison_PowerLaw.csv"
+SourceFile = r"SimulationResults\\Comparison_k_6\\Comparison_PowerLaw.csv"
 
-SaveFolder = r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_2\\"
+SaveFolder = r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_6\\"
 
 if kind == "Incidence":
     a = pd.read_csv(path + SourceFile)
-    a = a.loc[a.EventTime < 2,]
+    a = a.loc[a.EventTime < Time,]
     a = a.sort_values(['exponent','Threshold','I'])
 
     Exps = list(set(a.exponent.values))
@@ -59,7 +61,7 @@ if kind == "Incidence":
         fig.suptitle("Power Law - Configuration, Exponent: " + str(np.round(e,4)) + ", Time Round: " + str(time))
         fig.text(0.5,0.04,"I",ha = "center")
         fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-        plt.savefig(path + SaveFolder + "PowerLawIncidence_exp_" + str(np.round(e,4)) + "_Time_2.png")
+        plt.savefig(path + SaveFolder + "PowerLawIncidence_exp_" + str(np.round(e,4)) + ".png")
         plt.close()
         del fig
         del ax
