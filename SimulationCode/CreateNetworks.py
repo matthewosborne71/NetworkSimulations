@@ -8,7 +8,7 @@
 ## network simulations.                                                      ##
 ###############################################################################
 import networkx as nx
-import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
 import numpy.random as r
 import sys
@@ -79,7 +79,7 @@ def PowerLaw(n,exponent,seed = "None"):
 def NegativeBinomial(n,p,num_succ,seed = "None"):
     if seed != "None":
         np.random.seed(seed)
-        
+
     DegDist = np.array([1,0])
 
     while sum(DegDist) % 2 ==1:
@@ -120,3 +120,10 @@ def RandomLobster(n,p1,p2,seed = 'None'):
         return nx.random_lobster(n,p1,p2)
     else:
         return nx.random_lobster(n,p1,p2,seed)
+
+def Facebook100(NetworkEdgelist):
+    Edgelist = pd.read_csv(NetworkEdgelist, header = None)
+    Edgelist = Edgelist.rename(columns = {0:'Node1',1:'Node2'})
+
+    G = nx.from_pandas_edgelist(Edgelist,source = 'Node1',target = 'Node2',create_using = nx.Graph())
+    return G
