@@ -26,5 +26,6 @@ This folder contains two types of files.
 1. Aggregate*.py - these files will take the saved file from the simulations on a * random graph and aggregate the data for plotting purposes.
 2. Make*Pics.py - these files will take the aggregated data and create a plot of number of infecteds vs incidence for the * random graph simulations.
 
-
+#### DataCode Folder
+This folder contains code I used to clean some data from various real life social networks. In particular the networks found <a href = "https://archive.org/details/oxford-2005-facebook-matrix">here</a>.
 
