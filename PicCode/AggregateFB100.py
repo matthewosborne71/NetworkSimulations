@@ -3,9 +3,9 @@ import Path
 
 First = True
 path = Path.GetPath()
-ComplexFile = "SimulationResults/ComplexComparison_BA.csv"
-SimpleFile = "SimulationResults/SimpleComparison_BA.csv"
-CSV_Save_Name = "SimulationResults/Comparison_BA.csv"
+ComplexFile = "SimulationResults/ComplexContagionSimulations_FB100.csv"
+SimpleFile = "SimulationResults/SimpleContagionSimulations_FB100.csv"
+CSV_Save_Name = "SimulationResults/Comparison_FB100.csv"
 
 Round = 2
 
@@ -20,24 +20,20 @@ All = pd.concat([Simple,Complex])
 del Simple
 del Complex
 
-All['Round'] = All['EventTime'].round(Round)
-
 Thresholds = list(set(All.Threshold.values))
 Thresholds.sort()
 SimNums = list(set(All.SimNum.values))
 SimNums.sort()
-ms = list(set(All.m.values))
-ms.sort()
+Networks = list(set(All.Network.values))
 
 All['Round'] = All['EventTime'].round(Round)
 
-for m in ms:
-    AllEvents = All.loc[All.m == m,]
+for Network in Networks:
+    AllEvents = All.loc[All.Network == Network,]
     for Threshold in Thresholds:
         TheseEvents = AllEvents.loc[AllEvents.Threshold == Threshold,]
         I = []
         Inc = []
-        Sims = []
         Times = []
 
         for Sim in SimNums:
@@ -47,7 +43,6 @@ for m in ms:
             for i in d.index:
                 I.append(c[i])
                 Inc.append(d[i])
-                Sims.append(Sim)
                 Times.append(i)
 
             del c
@@ -58,24 +53,24 @@ for m in ms:
 
         if First:
             First = False
-            RData = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc,'EventTime':Times})
+            RData = pd.DataFrame({'I':I,'Inc':Inc,'EventTime':Times})
             del I
+            del Times
             del Inc
-            del Sims
             RData['Threshold'] = Threshold
-            RData['m'] = m
+            RData['Network'] = Network
         else:
-            A = pd.DataFrame({'Sim':Sims,'I':I,'Inc':Inc,'EventTime':Times})
+            A = pd.DataFrame({'I':I,'Inc':Inc,'EventTime':Times})
             del I
+            del Times
             del Inc
-            del Sims
             A['Threshold'] = Threshold
-            A['m'] = m
+            A['Network'] = Network
             RData = pd.concat([RData,A])
             del A
     del AllEvents
 del All
 
-RData = RData[['m','Threshold','Sim','I','Inc','EventTime']]
-RData = RData.sort_values(['m','Threshold','Sim','I'])
+RData = RData[['Network','Threshold','I','Inc','EventTime']]
+RData = RData.sort_values(['Network','Threshold','I'])
 RData.to_csv(path+CSV_Save_Name,index = False)

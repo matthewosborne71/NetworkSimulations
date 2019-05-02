@@ -17,6 +17,9 @@ Nodes = [1000]
 # k = 40
 EdgeProbs = [0.04]
 
+# k = 20
+EdgeProbs = [0.02]
+
 betas = [1.5]
 
 gamma = 1

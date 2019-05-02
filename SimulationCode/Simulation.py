@@ -167,6 +167,13 @@ def Recover(G,Infected):
     G.nodes[node]['Status'] = "S"
     return node,G,Infected
 
+def BlockRecover(G,Infected):
+    node = random.sample(Infected,1)[0]
+    Infected.remove(node)
+    G.nodes[node]['Status'] = "S"
+    PartitionEvent = "Partition" + str(G.node[node]['block']) + "_Recovery"
+    return node,G,Infected,PartitionEvent
+
 def Infect(G,Infected,SIEdges):
     edge = random.sample(SIEdges,1)[0]
     for item in edge:
@@ -176,6 +183,17 @@ def Infect(G,Infected,SIEdges):
 
     G.nodes[node]['Status'] = "I"
     return node,G,Infected
+
+def BlockInfect(G,Infected,SIEdges):
+    edge = random.sample(SIEdges,1)[0]
+    for item in edge:
+        if G.nodes[item]['Status'] == "S":
+            node = item
+            Infected.add(item)
+
+    G.nodes[node]['Status'] = "I"
+    PartitionEvent = "Partition" + str(G.node[node]['block']) + "_Infection"
+    return node,G,Infected,PartitionEvent
 
 
 # Will calculate the overall reaction rate
@@ -341,6 +359,7 @@ def SimpleBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta):
 
     WaitingTimes = []
     Events = ["Start"]
+    PartitionEvents = ["Start"]
     rate = 1
 
     while (CurrentTime < StoppingTime) & (len(Infected) > 0) & (rate > 0):
@@ -355,11 +374,13 @@ def SimpleBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta):
 
 
         if Event == "Recovery":
-            ChangedNode,G,Infected = Recover(G,Infected)
+            ChangedNode,G,Infected,PartitionEvent = BlockRecover(G,Infected)
             Type = "S"
         elif Event == "Infection":
-            ChangedNode,G,Infected = Infect(G,Infected,SIEdges)
+            ChangedNode,G,Infected,PartitionEvent = BlockInfect(G,Infected,SIEdges)
             Type = "I"
+
+        PartitionEvents.append(PartitionEvent)
 
         G,SIEdges = UpdateEdges(G,SIEdges,ChangedNode,Type)
 
@@ -371,7 +392,7 @@ def SimpleBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta):
             PartitionInfected[i].append(len(Infected.intersection(G.graph['partition'][i])))
 
 
-    return Time,Events,CurrentInfected,PartitionInfected
+    return Time,Events,CurrentInfected,PartitionInfected,PartitionEvents
 
 def ComplexBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta,Threshold,ThresholdType):
     # Set all the nodes to susceptible
@@ -417,6 +438,7 @@ def ComplexBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta,Threshold,
 
     WaitingTimes = []
     Events = ["Start"]
+    PartitionEvents = ["Start"]
     rate = 1
 
     while (CurrentTime < StoppingTime) & (len(Infected) > 0):
@@ -428,11 +450,13 @@ def ComplexBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta,Threshold,
         Events.append(Event)
 
         if Event == "Recovery":
-            ChangedNode,G,Infected = Recover(G,Infected)
+            ChangedNode,G,Infected,PartitionEvent = BlockRecover(G,Infected)
             Type = "S"
         elif Event == "Infection":
-            ChangedNode,G,Infected = Infect(G,Infected,AtRiskEdges)
+            ChangedNode,G,Infected,PartitionEvent = BlockInfect(G,Infected,AtRiskEdges)
             Type = "I"
+
+        PartitionEvents.append(PartitionEvent)
 
         G,SIEdges = UpdateEdges(G,SIEdges,ChangedNode,Type)
         G,AtRiskEdges = UpdateAtRisk(G,AtRiskEdges,ChangedNode,Type,ThresholdType)
@@ -445,4 +469,4 @@ def ComplexBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta,Threshold,
         for i in range(NPartitions):
             PartitionInfected[i].append(len(Infected.intersection(G.graph['partition'][i])))
 
-    return Time,Events,CurrentInfected,PartitionInfected
+    return Time,Events,CurrentInfected,PartitionInfected,PartitionEvents

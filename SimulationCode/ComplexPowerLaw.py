@@ -15,10 +15,13 @@ Nodes = 1000
 # k = 40
 exps = [2.015]
 
+# k = 20
+exps = [2.0315]
+
 gamma = 1
 beta = 1.5
 
-Thresholds = [.01,.02,.03,.04,.05,.06,.07]
+Thresholds = [.03,.06,.09,.12]
 
 NumSims = 50
 InitialFrac = 0.01

@@ -12,9 +12,9 @@ Time = 2
 kind = "Incidence"
 
 path = Path.GetHomePath()
-SourceFile = r"SimulationResults\\Comparison_k_6\\Comparison_PowerLaw.csv"
+SourceFile = r"SimulationResults\\Comparison_k_20\\Comparison_PowerLaw.csv"
 
-SaveFolder = r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_6\\"
+SaveFolder = r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_20\\"
 
 if kind == "Incidence":
     a = pd.read_csv(path + SourceFile)

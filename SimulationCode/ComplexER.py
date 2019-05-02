@@ -15,10 +15,13 @@ Nodes = [1000]
 # EdgeProbs = [0.006]
 
 # k = 40
-EdgeProbs = [0.04]
+#EdgeProbs = [0.04]
+
+# k = 20
+EdgeProbs = [0.02]
 
 betas = [1.5]
-Thresholds = [.01,.02,.03,.04,.05,.06,.07]
+Thresholds = [.05,.1,.15,.2]
 
 gamma = 1
 

@@ -18,8 +18,12 @@ Nodes = 1000
 #num_successes = [2,4,6,9]
 
 # k = 40
-probs = [.33333,.5,.6]
-num_successes = [20,40,60]
+#probs = [.33333,.5,.6]
+#num_successes = [20,40,60]
+
+# k = 20
+probs = [.2,.5,.6]
+num_successes = [5,20,30]
 
 gamma = 1
 beta = 1.5

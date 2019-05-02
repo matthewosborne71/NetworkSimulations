@@ -13,7 +13,9 @@ Nodes = 1000
 
 # k = 6
 
-k = 40
+# k = 40
+
+k = 20
 
 ps = np.arange(.1,1.1,.1)
 
@@ -21,7 +23,7 @@ gamma = 1
 
 betas = [1.5]
 
-Thresholds = [.01,.02,.03,.04,.05,.06,.07]
+Thresholds = [.05,.1,.15,.2]
 
 
 NumSims = 50

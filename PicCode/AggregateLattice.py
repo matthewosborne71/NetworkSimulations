@@ -7,7 +7,7 @@ ComplexFile = "SimulationResults/ComplexComparison_Lattice.csv"
 SimpleFile = "SimulationResults/SimpleComparison_Lattice.csv"
 CSV_Save_Name = "SimulationResults/Comparison_Lattice.csv"
 
-Round = 1
+Round = 2
 
 Complex = pd.read_csv(path + ComplexFile)
 Simple = pd.read_csv(path + SimpleFile)

@@ -24,6 +24,7 @@ All = pd.concat([Simple,Complex])
 del Complex
 del Simple
 
+Round = 2
 EdgeProbs = list(set(All.EdgeProb.values))
 EdgeProbs.sort()
 Thresholds = list(set(All.Threshold.values))
@@ -40,12 +41,7 @@ i = 0
 for EdgeProb in EdgeProbs:
     logging.info("Running for EdgeProb: " + str(EdgeProb) + "\n")
     AllEvents = All.loc[All.EdgeProb == EdgeProb,]
-    if EdgeProb < 0.1:
-        AllEvents['Round'] = AllEvents['EventTime'].round(1)
-    elif EdgeProb < 0.3:
-        AllEvents['Round'] = AllEvents['EventTime'].round(3)
-    else:
-        AllEvents['Round'] = AllEvents['EventTime'].round(3)
+    AllEvents['Round'] = AllEvents['EventTime'].round(Round)
     for Threshold in Thresholds:
         logging.info("Running for Threshold: " + str(Threshold) + "\n")
         TheseEvents = AllEvents.loc[AllEvents.Threshold == Threshold,]

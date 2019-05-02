@@ -7,19 +7,19 @@ import Path
 seed = 440
 
 InitialFrac = .01
-StoppingTime = 10
+StoppingTime = 5
 gamma = 1
 First = True
 
 # k = 40
-Networks = ['Haverford76','Hamilton46','Amherst41','Williams40']
+#Networks = ['Haverford76','Hamilton46','Amherst41','Williams40']
 
 # k = 20
-# Networks = ['Caltech36','Reed98','Simmons81']
+Networks = ['Caltech36','Reed98','Simmons81']
 
 
 betas = [1.5]
-Thresholds = [.01,.02,.03,.04,.05,.06,.07]
+Thresholds = [.05,.1,.15,.2]
 NumSims = 50
 
 path = Path.GetPath()

@@ -13,7 +13,7 @@ First = True
 
 
 betas = [1.5]
-Thresholds = [.01,.02,.03,.04,.05,.06,.07]
+Thresholds = [.03,.06,.09,.12]
 NumSims = 50
 
 path = Path.GetPath()
