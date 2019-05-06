@@ -127,3 +127,37 @@ def Facebook100(NetworkEdgelist):
 
     G = nx.from_pandas_edgelist(Edgelist,source = 'Node1',target = 'Node2',create_using = nx.Graph())
     return G
+
+def GeneralBlock(Gs,ps):
+    BlockGraph = nx.Graph()
+
+    running_length = 0
+    for i in range(1,len(Gs)):
+        running_length = running_length + len(Gs[i-1])
+        relabel = {}
+        for j in Gs[i].nodes():
+            relabel[j] = j + running_length
+        Gs[i] = nx.relabel_nodes(Gs[i],relabel)
+
+    partitions = []
+    for i in range(len(Gs)):
+        BlockGraph.add_nodes_from(Gs[i].nodes)
+        partitions.append(set(Gs[i].nodes))
+        for node in Gs[i].nodes:
+            BlockGraph.node[node]['block'] = i
+        BlockGraph.add_edges_from(Gs[i].edges)
+
+    BlockGraph.graph['partition'] = partitions
+
+    new_edges = []
+    for i in range(len(Gs)):
+        for j in range(i,len(Gs)):
+            p = ps[i][j]
+            for i_node in Gs[i].nodes:
+                for j_node in Gs[j].nodes:
+                    if np.random.random() < p:
+                        new_edges.append((i_node,j_node))
+
+    BlockGraph.add_edges_from(new_edges)
+
+    return BlockGraph

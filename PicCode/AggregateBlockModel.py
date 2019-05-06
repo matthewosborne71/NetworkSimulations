@@ -4,12 +4,12 @@ import Path
 
 
 path = Path.GetPath()
-ComplexFile = "SimulationResults/ComplexContagionSimulations_BlockModel.csv"
-SimpleFile = "SimulationResults/SimpleContagionSimulations_BlockModel.csv"
-CSV_Save_Names = ["SimulationResults/Comparison_BlockModel.csv",
-                    "SimulationResults/Comparison_BlockModel_Partition_0.csv",
-                    "SimulationResults/Comparison_BlockModel_Partition_1.csv",
-                    "SimulationResults/Comparison_BlockModel_Partition_2.csv"]
+ComplexFile = "SimulationResults/ComplexContagionSimulations_BlockModel3.csv"
+SimpleFile = "SimulationResults/SimpleContagionSimulations_BlockModel3.csv"
+CSV_Save_Names = ["SimulationResults/Comparison_BlockModel3.csv",
+                    "SimulationResults/Comparison_BlockModel3_Partition_0.csv",
+                    "SimulationResults/Comparison_BlockModel3_Partition_1.csv",
+                    "SimulationResults/Comparison_BlockModel3_Partition_2.csv"]
 
 FileTypes = ["Full","0","1","2"]
 

@@ -1,16 +1,22 @@
 import CreateNetworks as CN
 import Simulation as S
-import logging
 import numpy as np
+import logging
 import Path
 
 seed = 440
 NumSims = 50
 
+np.random.seed(seed)
 
-sizes = [1000,1000,1000]
-probs = [[0.01,0.001,0],[0.001,0.01,0.001],[0,0.001,0.01]]
-parts = [[0],[1],[2],[0,1],[1,2],[0,2],[0,1,2]]
+size = 1000
+p = .1
+exp = 2.065
+
+probs = [[0,0.001],[0.001,0]]
+parts = [[0],[1],[0,1]]
+
+Thresholds = [.05,.1,.11,.12,.13,.14,.15,.16,.17]
 
 gamma = 1
 beta = 1.5
@@ -18,33 +24,26 @@ beta = 1.5
 InitialFrac = 0.005
 
 StoppingTime = 5
-Thresholds = [.05,.1,.11,.12,.13,.14,.15,.16,.17]
-
-InitialFrac = 0.01
-
-StoppingTime = 5
 
 path = Path.GetPath()
 
-First = True
-
-logging.basicConfig(filename = path + "Logs/ComplexBlockSims.log",
+logging.basicConfig(filename = path + "Logs/ComplexERPL.log",
                     format = '%(asctime)s - %(message)s',
                     level = logging.INFO)
 
-f = open(path + "SimulationResults/ComplexContagionSimulations_BlockModel3.csv","w+")
-f.write("Partition,Threshold,SimNum,EventTime,Event,PartitionEvent,CurrentI,")
-for i in range(len(sizes)):
-    if i < len(sizes) - 1:
+f = open(path + "SimulationResults/ComplexContagionSimulations_ER_PL.csv","w+")
+f.write("Partition,SimNum,EventTime,Event,PartitionEvent,CurrentI,")
+for i in range(len(probs)):
+    if i < len(probs) - 1:
         f.write("Partition" + str(i) + "_I,")
     else:
         f.write("Partition" + str(i) + "_I\n")
 
-TotalSims = NumSims * len(parts) * len(Thresholds)
+TotalSims = NumSims * len(probs)
 
 CurrentSim = float(1)
 
-logging.info("About to run complex simulations for The block model\n")
+logging.info("About to run simulations for the general block model \n")
 
 for thresh in Thresholds:
     for part in parts:
@@ -52,14 +51,10 @@ for thresh in Thresholds:
             logging.info("About to run sim " + str(CurrentSim) + " of " + str(TotalSims) +".\n")
             CurrentSim = CurrentSim + 1
 
-            if First:
-                First = False
-                G = CN.Block(sizes,probs,seed)
-            else:
-                G = CN.Block(sizes,probs)
+            Gs = [CN.Erdos(size,p),CN.PowerLaw(size,exp)]
+            G = CN.GeneralBlock(Gs,probs)
 
             WhereInfect = part
-
 
             Times,Events,Is,PartIs,PartitionEvents = S.ComplexBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,beta,thresh,"Frac")
 
@@ -73,8 +68,8 @@ for thresh in Thresholds:
                 CurrentI = str(Is[j])
                 f.write(Part + "," + Threshold + "," + SimNum + "," + EventTime
                         + "," + Event + "," + PEvent + "," + CurrentI + ",")
-                for k in range(len(sizes)):
-                    if k < len(sizes) - 1:
+                for k in range(len(probs)):
+                    if k < len(probs) - 1:
                         f.write(str(PartIs[k][j]) + ",")
                     else:
                         f.write(str(PartIs[k][j]) + "\n")
