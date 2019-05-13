@@ -46,7 +46,7 @@ logging.info("About to run simulations for the general block model \n")
 for part in parts:
     for prob in probs:
         for i in range(1,NumSims + 1):
-            logging.info("About to run sim " + str(CurrentSim) + " of " + str(TotalSims) +".\n")
+            logging.info("About to run sim " + str(CurrentSim) + " of " + str(TotalSims) +". " + str(part) + " " + str(prob) + "\n")
             CurrentSim = CurrentSim + 1
 
             Gs = [CN.Erdos(size,p),CN.PowerLaw(size,exp)]

@@ -151,7 +151,7 @@ def GeneralBlock(Gs,ps):
 
     new_edges = []
     for i in range(len(Gs)):
-        for j in range(i,len(Gs)):
+        for j in range(i+1,len(Gs)):
             p = ps[i][j]
             for i_node in Gs[i].nodes:
                 for j_node in Gs[j].nodes:

@@ -9,9 +9,9 @@ path = Path.GetHomePath()
 
 Time = 2
 
-a = pd.read_csv(path + r"SimulationResults\\Comparison_Blocks\\Comparison_ER_PL.csv")
-a0 = pd.read_csv(path + r"SimulationResults\\Comparison_Blocks\\Comparison_ER_PL_Partition_0.csv")
-a1 = pd.read_csv(path + r"SimulationResults\\Comparison_Blocks\\Comparison_ER_PL_Partition_1.csv")
+a = pd.read_csv(path + "SimulationResults/Comparison_Blocks/Comparison_ER_PL.csv")
+a0 = pd.read_csv(path + "SimulationResults/Comparison_Blocks/Comparison_ER_PL_Partition_0.csv")
+a1 = pd.read_csv(path + "SimulationResults/Comparison_Blocks/Comparison_ER_PL_Partition_1.csv")
 
 a = a.loc[a.EventTime < Time, ]
 a0 = a0.loc[a0.EventTime < Time, ]
@@ -39,8 +39,8 @@ for part in Parts:
 
     for p in probs:
         c = b.loc[b.prob == p,]
+        c0 = b0.loc[b0.prob == p,]
         c1 = b1.loc[b1.prob == p,]
-        c2 = b2.loc[b2.prob == p,]
         fig,ax = plt.subplots(row,col,sharex = 'col',sharey = 'row',figsize = [12,8])
         for i in range(len(Thresholds)):
             d = c.loc[c.Threshold==Thresholds[i],]
@@ -77,7 +77,7 @@ for part in Parts:
         fig.suptitle("Stochastic Block Model, Partition: " + str(part) + ", prob: " + str(p) + "Time Round: " + str(time))
         fig.text(0.5,0.04,"I",ha = "center")
         fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-        plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\BlockModels\\ER_PL_p_" + str(p) + "Incidence_" + part + "_Reg.png")
+        plt.savefig(path + "SimulationResults/FOI_Pics/ComparisonPics/BlockModels/ER_PL_p_" + str(p) + "Incidence_" + part + "_Reg.png")
         plt.close()
         del fig
         del ax
