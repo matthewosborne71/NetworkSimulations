@@ -9,7 +9,10 @@ path = Path.GetHomePath()
 
 Time = 3
 
-a = pd.read_csv(path + r"SimulationResults\\Comparison_k_40\\Comparison_Facebook.csv")
+DataName = "SimulationResults/Comparison_k_40/Comparison_Facebook.csv"
+SaveStarter = "SimulationResults/FOI_Pics/ComparisonPics/k_40/Facebook_Incidence.png"
+
+a = pd.read_csv(path + )
 a = a.loc[a.EventTime < Time,]
 
 Thresholds = list(set(a.Threshold.values))
@@ -40,5 +43,5 @@ for i in range(len(Thresholds)):
 fig.suptitle("Facebook Network, Time Round: " + str(time))
 fig.text(0.5,0.04,"I",ha = "center")
 fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_40\\Facebook_Incidence.png")
+plt.savefig(path + SaveStarter)
 plt.close()

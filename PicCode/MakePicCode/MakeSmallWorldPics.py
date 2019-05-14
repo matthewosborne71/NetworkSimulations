@@ -9,7 +9,11 @@ path = Path.GetHomePath()
 
 Time = 5
 
-a = pd.read_csv(path + r"SimulationResults\\Comparison_k_20\\Comparison_SmallWorld.csv")
+DataName = "SimulationResults/Comparison_k_20/Comparison_SmallWorld.csv"
+
+SaveStarter = "SimulationResults/FOI_Pics/ComparisonPics/k_20/SmallWorldIncidence_RP_"
+
+a = pd.read_csv(path + )
 
 a = a.loc[a.EventTime < Time, ]
 
@@ -54,7 +58,7 @@ for p in RewiringProbs:
     fig.suptitle("Small World, RewiringProb: " + str(np.round(p,4)) + ", Time Round: " + str(time))
     fig.text(0.5,0.04,"I",ha = "center")
     fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-    plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_20\\SmallWorldIncidence_RP_" + str(np.round(p,4)) + ".png")
+    plt.savefig(path + SaveStarter + str(np.round(p,4)) + ".png")
     plt.close()
     del fig
     del ax

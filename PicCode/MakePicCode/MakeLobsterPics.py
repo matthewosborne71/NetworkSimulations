@@ -7,7 +7,10 @@ import Path
 
 path = Path.GetHomePath()
 
-a = pd.read_csv(path + r"SimulationResults\\RData_Lobster.csv")
+DataName = "SimulationResults/RData_Lobster.csv"
+SaveStarter = "SimulationResults/FOI_Pics/Lobster/Lobster_"
+
+a = pd.read_csv(path + DataName)
 
 Thresholds = list(set(a.Threshold.values))
 Thresholds.sort()
@@ -45,5 +48,5 @@ for p1 in p1s:
         fig.suptitle("Random Lobster, p1: " + str(np.round(p1,4)) + " p2: " + str(np.round(p2,4)) + ", Time Round: " + str(time))
         fig.text(0.5,0.04,"I",ha = "center")
         fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-        plt.savefig(path + r"SimulationResults\\FOI_Pics\\Lobster\\Lobster_" + str(np.round(p1,4)) + "_" + str(np.round(p2,4)) + "_Incidence.png")
+        plt.savefig(path + SaveStarter + str(np.round(p1,4)) + "_" + str(np.round(p2,4)) + "_Incidence.png")
         plt.close()

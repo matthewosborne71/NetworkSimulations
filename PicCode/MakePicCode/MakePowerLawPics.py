@@ -12,12 +12,12 @@ Time = 2
 kind = "Incidence"
 
 path = Path.GetHomePath()
-SourceFile = r"SimulationResults\\Comparison_k_20\\Comparison_PowerLaw.csv"
+DataName = "SimulationResults/Comparison_k_20/Comparison_PowerLaw.csv"
 
-SaveFolder = r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_20\\"
+SaveStarter = "SimulationResults/FOI_Pics/ComparisonPics/k_20/"
 
 if kind == "Incidence":
-    a = pd.read_csv(path + SourceFile)
+    a = pd.read_csv(path + DataName)
     a = a.loc[a.EventTime < Time,]
     a = a.sort_values(['exponent','Threshold','I'])
 
@@ -61,12 +61,12 @@ if kind == "Incidence":
         fig.suptitle("Power Law - Configuration, Exponent: " + str(np.round(e,4)) + ", Time Round: " + str(time))
         fig.text(0.5,0.04,"I",ha = "center")
         fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-        plt.savefig(path + SaveFolder + "PowerLawIncidence_exp_" + str(np.round(e,4)) + ".png")
+        plt.savefig(path + SaveStarter + "PowerLawIncidence_exp_" + str(np.round(e,4)) + ".png")
         plt.close()
         del fig
         del ax
 elif kind == "BySimulation":
-    a = pd.read_csv(path + SourceFile)
+    a = pd.read_csv(path + DataName)
 
     Exps = list(set(a.exponent.values))
     Thresholds = list(set(a.Threshold.values))
@@ -82,7 +82,7 @@ elif kind == "BySimulation":
             g = sns.FacetGrid(data = c, col = 'Sim', col_wrap = 10)
             g = g.map(plt.scatter,"I","Inc",s = 2)
 
-            plt.savefig(path + SaveFolder + r"BySimulation\\PowerLawBySimulation_exp_" + str(np.round(e,4)) +
+            plt.savefig(path + SaveStarter + "BySimulation/PowerLawBySimulation_exp_" + str(np.round(e,4)) +
                         "_Threshold" + str(np.round(Threshold,2)) + ".png")
             plt.close()
             del g

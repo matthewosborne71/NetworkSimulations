@@ -7,7 +7,10 @@ import Path
 
 path = Path.GetHomePath()
 
-a = pd.read_csv(path + r"SimulationResults\\Aggregate_NonRandom.csv")
+DataName = "SimulationResults/Aggregate_NonRandom.csv"
+SaveStarter = "SimulationResults/FOI_Pics/ComparisonPics/NonRandom_"
+
+a = pd.read_csv(path + DataName)
 
 Types = list(set(a.NetworkType.values))
 
@@ -53,7 +56,7 @@ for Type in Types:
         fig.suptitle("NonRandom Comparison: " + Type + ": " + Feature)
         fig.text(0.5,0.04,"I",ha = "center")
         fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-        plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\NonRandom_" + Type + "_Feature_" + Feature + ".png")
+        plt.savefig(path + SaveStarter + Type + "_Feature_" + Feature + ".png")
         plt.close()
         del fig
         del ax

@@ -7,7 +7,11 @@ import Path
 
 path = Path.GetHomePath()
 
-a = pd.read_csv(path + r"SimulationResults\\Comparison_k_20\\Comparison_ERSims.csv")
+DataName = "SimulationResults/Comparison_k_20/Comparison_ERSims.csv"
+
+SaveStarter = "SimulationResults/FOI_Pics/ComparisonPics/k_20/ER_Incidence_EP_"
+
+a = pd.read_csv(path + DataName)
 
 Time = 2
 
@@ -74,7 +78,7 @@ for e in EdgeProbs:
     # Untrimmed
     #plt.savefig(path + r"SimulationResults\\FOI_Pics\\ER\\ER_Incidence_EP_" + str(e) + ".png")
     # Trimmed
-    plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_20\\ER_Incidence_EP_" + str(e) + ".png")
+    plt.savefig(path + SaveStarter + str(e) + ".png")
     plt.close()
     del fig
     del ax

@@ -7,7 +7,11 @@ import Path
 
 path = Path.GetHomePath()
 
-a = pd.read_csv(path + r"SimulationResults\\Comparison_RandomRegular.csv")
+DataName = "SimulationResults/Comparison_RandomRegular.csv"
+
+SaveStarter = "SimulationResults/FOI_Pics/ComparisonPics/RandomRegular_Incidence.png"
+
+a = pd.read_csv(path + DataName)
 
 Thresholds = list(set(a.Threshold.values))
 Thresholds.sort()
@@ -37,5 +41,5 @@ for i in range(len(Thresholds)):
 fig.suptitle("Random Regular, Time Round: " + str(time))
 fig.text(0.5,0.04,"I",ha = "center")
 fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\RandomRegular_Incidence.png")
+plt.savefig(path + SaveStarter)
 plt.close()

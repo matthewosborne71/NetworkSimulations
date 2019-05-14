@@ -9,9 +9,15 @@ path = Path.GetHomePath()
 
 Time = 2
 
-a = pd.read_csv(path + "SimulationResults/Comparison_Blocks/Comparison_ER_PL.csv")
-a0 = pd.read_csv(path + "SimulationResults/Comparison_Blocks/Comparison_ER_PL_Partition_0.csv")
-a1 = pd.read_csv(path + "SimulationResults/Comparison_Blocks/Comparison_ER_PL_Partition_1.csv")
+DataName = "SimulationResults/Comparison_Blocks/Comparison_ER_PL.csv"
+DataName0 = "SimulationResults/Comparison_Blocks/Comparison_ER_PL_Partition_0.csv"
+DataName1 = "SimulationResults/Comparison_Blocks/Comparison_ER_PL_Partition_1.csv"
+
+SaveStarter = "SimulationResults/FOI_Pics/ComparisonPics/BlockModels/ER_PL_p_"
+
+a = pd.read_csv(path + DataName)
+a0 = pd.read_csv(path + DataName0)
+a1 = pd.read_csv(path + DataName1)
 
 a = a.loc[a.EventTime < Time, ]
 a0 = a0.loc[a0.EventTime < Time, ]
@@ -77,7 +83,7 @@ for part in Parts:
         fig.suptitle("Stochastic Block Model, Partition: " + str(part) + ", prob: " + str(p) + "Time Round: " + str(time))
         fig.text(0.5,0.04,"I",ha = "center")
         fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-        plt.savefig(path + "SimulationResults/FOI_Pics/ComparisonPics/BlockModels/ER_PL_p_" + str(p) + "Incidence_" + part + "_Reg.png")
+        plt.savefig(path + SaveStarter + str(p) + "Incidence_" + part + "_Reg.png")
         plt.close()
         del fig
         del ax

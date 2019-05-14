@@ -9,23 +9,28 @@ path = Path.GetHomePath()
 
 Time = 5
 
-a = pd.read_csv(path + r"SimulationResults\\Comparison_k_20\\Comparison_SmallWorldNewman.csv")
+DataName = "SimulationResults/Comparison_k_20/Comparison_Lattice.csv"
 
-a = a.loc[a.EventTime < Time,]
+SaveStarter = "SimulationResults/FOI_Pics/ComparisonPics/k_20/Lattice_Incidence.png"
 
-ShortCutProbs = list(set(a.ShortCutProb.values))
+a = pd.read_csv(path + DataName)
+
+a = a.loc[a.EventTime < Time, ]
+
+RewiringProbs = list(set(a.RewiringProb.values))
 Thresholds = list(set(a.Threshold.values))
-ShortCutProbs.sort()
+RewiringProbs.sort()
 Thresholds.sort()
 
 time = float(10)**(-2)
 
-col = 3
+
 row = 2
+col = 3
 xlim = (0,1000)
 
-for p in ShortCutProbs:
-    b = a.loc[a.ShortCutProb == p,]
+for p in RewiringProbs:
+    b = a.loc[a.RewiringProb == p,]
 
     fig,ax = plt.subplots(row,col,sharex = 'col',sharey = 'row',figsize = [12,8])
     for i in range(len(Thresholds)):
@@ -41,19 +46,19 @@ for p in ShortCutProbs:
             ax[i/col,i%col].plot(xs,k(xs),'r-',linewidth = 2)
             ax[i/col,i%col].set_title("Threshold: " + str(np.round(Thresholds[i],4)))
             ylim = ax[0,0].get_ylim()
-            ax[i/col,i%col].set_xlim(xlim)
             ax[i/col,i%col].set_ylim(ylim)
+            ax[i/col,i%col].set_xlim(xlim)
         else:
             ax[i/col,i%col].plot(c.I.values,c.Inc.values,'.')
             ax[i/col,i%col].set_title("Threshold: " + str(np.round(Thresholds[i],4)))
             ylim = ax[0,0].get_ylim()
-            ax[i/col,i%col].set_xlim(xlim)
             ax[i/col,i%col].set_ylim(ylim)
+            ax[i/col,i%col].set_xlim(xlim)
 
-    fig.suptitle("Small World, ShortCutProb: " + str(np.round(p,4)) + ", Time Round: " + str(time))
+    fig.suptitle("Small World, RewiringProb: " + str(np.round(p,4)) + ", Time Round: " + str(time))
     fig.text(0.5,0.04,"I",ha = "center")
     fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-    plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_20\\SmallWorldNewmanIncidence_SCP_" + str(np.round(p,4)) + ".png")
+    plt.savefig(path + SaveStarter)
     plt.close()
     del fig
     del ax

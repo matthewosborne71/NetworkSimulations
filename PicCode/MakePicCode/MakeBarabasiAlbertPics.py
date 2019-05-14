@@ -8,8 +8,11 @@ import Path
 path = Path.GetHomePath()
 
 Time = 3
+DataName = "SimulationResults/Comparison_k_20/Comparision_BA.csv"
+SaveStarter = "SimulationResults/FOI_Pics/ComparisonPics/k_20/BA_M_"
 
-a = pd.read_csv(path + r"SimulationResults\\Comparison_k_20\\Comparison_BA.csv")
+
+a = pd.read_csv(path + DataName)
 
 a = a.loc[a.EventTime < Time,]
 
@@ -45,5 +48,5 @@ for m in ms:
     fig.suptitle("Barabasi Albert Network, Time Round: " + str(time))
     fig.text(0.5,0.04,"I",ha = "center")
     fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
-    plt.savefig(path + r"SimulationResults\\FOI_Pics\\ComparisonPics\\k_20\\BA_M_" + str(m) +  "_Incidence.png")
+    plt.savefig(path + SaveStarter + str(m) +  "_Incidence.png")
     plt.close()
