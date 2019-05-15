@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-#import pyqt_fit.nonparam_regression as smooth
-#from pyqt_fit import npr_methods
+import pyqt_fit.nonparam_regression as smooth
+from pyqt_fit import npr_methods
 import matplotlib.pyplot as plt
 import Path
 
@@ -44,6 +44,7 @@ for part in Parts:
     b1 = a1.loc[a1.Partition == part,]
 
     for p in probs:
+        print(part,p)
         c = b.loc[b.prob == p,]
         c0 = b0.loc[b0.prob == p,]
         c1 = b1.loc[b1.prob == p,]
@@ -52,22 +53,22 @@ for part in Parts:
             d = c.loc[c.Threshold==Thresholds[i],]
             d0 = c0.loc[c0.Threshold==Thresholds[i],]
             d1 = c1.loc[c1.Threshold==Thresholds[i],]
-            if len(c) > 10:
+            if len(d) > 10:
                 minI = d.I.values.min()
                 maxI = d.I.values.max()
                 xs = np.arange(minI,maxI,1)
-                # k = smooth.NonParamRegression(d.I.values,d.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
-                # k.fit()
-                # k0 = smooth.NonParamRegression(d0.I.values,d0.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
-                # k0.fit()
-                # k1 = smooth.NonParamRegression(d1.I.values,d1.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
-                # k1.fit()
-                ax[i/col,i%col].plot(d.I.values,d.Inc.values,'k.',label = 'Whole Network')
-                ax[i/col,i%col].plot(d0.I.values,d0.Inc.values,'r.',label = 'Block 0')
-                ax[i/col,i%col].plot(d1.I.values,d1.Inc.values,'b.',label = 'Block 1')
-                # ax[i/col,i%col].plot(xs,k(xs),'k-',linewidth = 2,label = 'Whole Network')
-                # ax[i/col,i%col].plot(xs,k0(xs),'r-',linewidth = 2,label = 'Block 0')
-                # ax[i/col,i%col].plot(xs,k1(xs),'b-',linewidth = 2,label = 'Block 1')
+                k = smooth.NonParamRegression(d.I.values,d.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
+                k.fit()
+                k0 = smooth.NonParamRegression(d0.I.values,d0.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
+                k0.fit()
+                k1 = smooth.NonParamRegression(d1.I.values,d1.Inc.values,method = npr_methods.LocalPolynomialKernel(q=1),bandwidth = 50)
+                k1.fit()
+                # ax[i/col,i%col].plot(d.I.values,d.Inc.values,'k.',label = 'Whole Network')
+                # ax[i/col,i%col].plot(d0.I.values,d0.Inc.values,'r.',label = 'Block 0')
+                # ax[i/col,i%col].plot(d1.I.values,d1.Inc.values,'b.',label = 'Block 1')
+                ax[i/col,i%col].plot(xs,k(xs),'k-',linewidth = 2,label = 'Whole Network')
+                ax[i/col,i%col].plot(xs,k0(xs),'r-',linewidth = 2,label = 'Block 0')
+                ax[i/col,i%col].plot(xs,k1(xs),'b-',linewidth = 2,label = 'Block 1')
                 ylim = ax[0,0].get_ylim()
                 ax[i/col,i%col].set_ylim(ylim)
                 ax[i/col,i%col].set_xlim(xlim)
@@ -80,7 +81,7 @@ for part in Parts:
                 ax[i/col,i%col].set_xlim(xlim)
                 ax[i/col,i%col].set_title("Threshold: " + str(np.round(Thresholds[i],4)))
 
-        fig.suptitle("Stochastic Block Model, Partition: " + str(part) + ", prob: " + str(p) + "Time Round: " + str(time))
+        fig.suptitle("ER - Power Law, Partition: " + str(part) + ", prob: " + str(p) + "Time Round: " + str(time))
         fig.text(0.5,0.04,"I",ha = "center")
         fig.text(0.04,0.5,"Incidence",va = 'center',rotation = 'vertical')
         plt.savefig(path + SaveStarter + str(p) + "Incidence_" + part + "_Reg.png")
