@@ -3,3 +3,8 @@
 *Path.py
 *MATLAB_Path.m
 *.asv
+*.aux
+*.log
+*.pdf
+*.gz
+*.tex
