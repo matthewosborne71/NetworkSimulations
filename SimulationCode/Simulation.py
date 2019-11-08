@@ -594,7 +594,7 @@ def ComplexBlockSim(G,InitialFrac,WhereInfect,StoppingTime,gamma,betas,Threshold
 
     for i in range(InfectSeed):
         node,G,Infected = InitialBlockInfect(G,Partitions,Infected)
-        G,SIEdges = UpdateBlockEdges(G,SIEdges,node,"I")\
+        G,SIEdges = UpdateBlockEdges(G,SIEdges,node,"I")
         G,AtRiskEdges = UpdateBlockAtRisk(G,AtRiskEdges,node,"I",ThresholdType)
 
     del Partitions
